@@ -1,0 +1,1669 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graph DSA Mastery — FAANG Interview Roadmap</title>
+<style>
+:root {
+  --bg: #0d0d0d;
+  --bg2: #141414;
+  --bg3: #1a1a1a;
+  --bg4: #222;
+  --border: #2a2a2a;
+  --border2: #333;
+  --text: #e8e8e8;
+  --text2: #aaa;
+  --text3: #666;
+  --green: #00d26a;
+  --green2: #00a854;
+  --cyan: #00c8ff;
+  --cyan2: #0099cc;
+  --amber: #ffb800;
+  --amber2: #cc9200;
+  --red: #ff4d4d;
+  --red2: #cc3333;
+  --purple: #a855f7;
+  --purple2: #7c3aed;
+  --pink: #f472b6;
+  --orange: #fb923c;
+  --teal: #2dd4bf;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { background:var(--bg); color:var(--text); font-family:'SF Mono',Consolas,'Courier New',monospace; font-size:14px; line-height:1.6; }
+
+/* ── NAV ── */
+nav { position:fixed; top:0; left:0; right:0; z-index:100; background:rgba(13,13,13,0.95); backdrop-filter:blur(8px); border-bottom:1px solid var(--border); padding:0 24px; height:52px; display:flex; align-items:center; gap:8px; overflow-x:auto; white-space:nowrap; }
+nav a { color:var(--text3); text-decoration:none; font-size:12px; padding:4px 10px; border-radius:4px; transition:all 0.2s; border:1px solid transparent; }
+nav a:hover, nav a.active { color:var(--green); border-color:var(--green); background:rgba(0,210,106,0.07); }
+.nav-logo { color:var(--green); font-weight:700; font-size:13px; margin-right:12px; flex-shrink:0; }
+
+/* ── MAIN LAYOUT ── */
+.container { max-width:1400px; margin:0 auto; padding:72px 24px 40px; }
+
+/* ── HERO ── */
+.hero { text-align:center; padding:60px 0 48px; border-bottom:1px solid var(--border); margin-bottom:48px; }
+.hero-tag { display:inline-block; background:rgba(0,210,106,0.1); border:1px solid rgba(0,210,106,0.3); color:var(--green); font-size:11px; padding:4px 12px; border-radius:20px; margin-bottom:20px; letter-spacing:1px; text-transform:uppercase; }
+.hero h1 { font-size:clamp(28px,4vw,48px); font-weight:800; background:linear-gradient(135deg,var(--green),var(--cyan)); -webkit-background-clip:text; -webkit-text-fill-color:transparent; line-height:1.2; margin-bottom:16px; }
+.hero p { color:var(--text2); font-size:16px; max-width:640px; margin:0 auto 32px; font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif; }
+.hero-stats { display:flex; justify-content:center; gap:40px; flex-wrap:wrap; }
+.stat { text-align:center; }
+.stat-num { font-size:28px; font-weight:800; color:var(--green); display:block; }
+.stat-label { color:var(--text3); font-size:11px; text-transform:uppercase; letter-spacing:1px; }
+
+/* ── SECTIONS ── */
+section { margin-bottom:64px; scroll-margin-top:64px; }
+.section-header { display:flex; align-items:center; gap:12px; margin-bottom:28px; padding-bottom:12px; border-bottom:1px solid var(--border); }
+.section-num { background:var(--green); color:#000; font-size:11px; font-weight:800; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+h2 { font-size:22px; font-weight:700; color:var(--text); }
+h3 { font-size:16px; font-weight:700; color:var(--cyan); margin-bottom:12px; }
+
+/* ── CARDS ── */
+.card { background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:20px; margin-bottom:16px; }
+.card-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:16px; }
+.card-grid-3 { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; }
+
+/* ── PATTERN CARD ── */
+.pattern-card { background:var(--bg3); border:1px solid var(--border); border-radius:10px; overflow:hidden; margin-bottom:20px; }
+.pattern-header { background:var(--bg4); border-bottom:1px solid var(--border); padding:14px 20px; display:flex; align-items:center; gap:12px; }
+.pattern-badge { font-size:10px; font-weight:700; padding:3px 8px; border-radius:4px; text-transform:uppercase; letter-spacing:0.5px; }
+.badge-bfs { background:rgba(0,200,255,0.15); color:var(--cyan); border:1px solid rgba(0,200,255,0.3); }
+.badge-dfs { background:rgba(168,85,247,0.15); color:var(--purple); border:1px solid rgba(168,85,247,0.3); }
+.badge-sp { background:rgba(255,184,0,0.15); color:var(--amber); border:1px solid rgba(255,184,0,0.3); }
+.badge-mst { background:rgba(0,210,106,0.15); color:var(--green); border:1px solid rgba(0,210,106,0.3); }
+.badge-dsu { background:rgba(251,146,60,0.15); color:var(--orange); border:1px solid rgba(251,146,60,0.3); }
+.badge-scc { background:rgba(244,114,182,0.15); color:var(--pink); border:1px solid rgba(244,114,182,0.3); }
+.badge-topo { background:rgba(45,212,191,0.15); color:var(--teal); border:1px solid rgba(45,212,191,0.3); }
+.badge-adv { background:rgba(255,77,77,0.15); color:var(--red); border:1px solid rgba(255,77,77,0.3); }
+.pattern-title { font-size:16px; font-weight:700; color:var(--text); }
+.pattern-body { padding:20px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.pattern-body.full { grid-template-columns:1fr; }
+.info-row { margin-bottom:8px; }
+.info-label { color:var(--text3); font-size:11px; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:2px; }
+.info-val { color:var(--text); font-size:13px; }
+.info-val.green { color:var(--green); }
+.info-val.amber { color:var(--amber); }
+.info-val.red { color:var(--red); }
+.code-block { background:var(--bg); border:1px solid var(--border2); border-radius:6px; padding:16px; font-size:12px; line-height:1.7; overflow-x:auto; margin-top:12px; }
+.k { color:#ff7b72; } /* keywords */
+.t { color:#ffa657; } /* types */
+.fn { color:#d2a8ff; } /* functions */
+.s { color:#a5d6ff; } /* strings */
+.c { color:#8b949e; font-style:italic; } /* comments */
+.n { color:#79c0ff; } /* numbers */
+.var { color:#e6edf3; }
+.lc-list { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.lc-badge { font-size:11px; padding:3px 8px; border-radius:4px; border:1px solid var(--border2); color:var(--text2); cursor:pointer; transition:all 0.2s; white-space:nowrap; }
+.lc-badge:hover { border-color:var(--green); color:var(--green); }
+.lc-easy { border-color:rgba(0,210,106,0.4); color:var(--green2); }
+.lc-med { border-color:rgba(255,184,0,0.4); color:var(--amber); }
+.lc-hard { border-color:rgba(255,77,77,0.4); color:var(--red); }
+
+/* ── COMPLEXITY TABLE ── */
+.complexity-table { width:100%; border-collapse:collapse; font-size:13px; }
+.complexity-table th { background:var(--bg4); color:var(--text2); padding:10px 14px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; border-bottom:1px solid var(--border); }
+.complexity-table td { padding:10px 14px; border-bottom:1px solid var(--border); color:var(--text); }
+.complexity-table tr:last-child td { border-bottom:none; }
+.complexity-table tr:hover td { background:var(--bg4); }
+.tc-good { color:var(--green); }
+.tc-ok { color:var(--amber); }
+.tc-bad { color:var(--red); }
+
+/* ── RECOGNITION RULES ── */
+.rule-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:10px; }
+.rule-card { background:var(--bg3); border:1px solid var(--border); border-radius:6px; padding:12px 14px; display:flex; align-items:flex-start; gap:10px; }
+.rule-if { color:var(--text3); font-size:11px; text-transform:uppercase; flex-shrink:0; padding-top:2px; }
+.rule-condition { color:var(--text); font-size:13px; flex:1; }
+.rule-then { color:var(--text3); font-size:11px; text-transform:uppercase; flex-shrink:0; padding-top:2px; }
+.rule-algo { color:var(--green); font-size:13px; font-weight:700; flex:1.2; }
+.rule-arrow { color:var(--text3); padding-top:2px; flex-shrink:0; }
+
+/* ── DECISION TREE ── */
+.decision-tree { background:var(--bg3); border:1px solid var(--border); border-radius:10px; padding:24px; overflow-x:auto; }
+.dt-node { display:inline-block; border:1px solid; border-radius:6px; padding:8px 14px; font-size:12px; text-align:center; white-space:nowrap; }
+.dt-question { border-color:rgba(0,200,255,0.4); background:rgba(0,200,255,0.07); color:var(--cyan); }
+.dt-algo { border-color:rgba(0,210,106,0.4); background:rgba(0,210,106,0.07); color:var(--green); font-weight:700; }
+.dt-row { display:flex; align-items:flex-start; gap:0; margin:12px 0; }
+.dt-branch { display:flex; flex-direction:column; align-items:center; }
+.dt-line-v { width:1px; height:20px; background:var(--border2); margin:0 auto; }
+.dt-line-h-container { display:flex; align-items:flex-start; }
+.dt-label { font-size:10px; color:var(--text3); writing-mode:vertical-lr; transform:rotate(180deg); margin:0 4px; padding-top:4px; }
+
+/* ── LC TABLE ── */
+.lc-table-wrap { overflow-x:auto; }
+.lc-table { width:100%; border-collapse:collapse; font-size:13px; min-width:700px; }
+.lc-table th { background:var(--bg4); color:var(--text2); padding:10px 12px; text-align:left; font-size:11px; text-transform:uppercase; letter-spacing:0.5px; border-bottom:1px solid var(--border); white-space:nowrap; }
+.lc-table td { padding:9px 12px; border-bottom:1px solid var(--border); color:var(--text); }
+.lc-table tr:hover td { background:rgba(255,255,255,0.02); }
+.freq-bar { display:inline-flex; gap:2px; }
+.freq-pip { width:6px; height:6px; border-radius:50%; }
+.pip-on { background:var(--green); }
+.pip-off { background:var(--border2); }
+.diff-easy { color:var(--green); }
+.diff-med { color:var(--amber); }
+.diff-hard { color:var(--red); }
+.num { color:var(--text3); font-size:11px; }
+
+/* ── 30-DAY PLAN ── */
+.plan-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px; }
+.plan-day { background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:12px; cursor:pointer; transition:all 0.2s; }
+.plan-day:hover { border-color:var(--green); background:rgba(0,210,106,0.05); }
+.plan-day.mock { border-color:rgba(255,77,77,0.4); }
+.plan-day.review { border-color:rgba(255,184,0,0.4); }
+.plan-day.active { border-color:var(--green); background:rgba(0,210,106,0.08); }
+.plan-day-num { font-size:10px; color:var(--text3); text-transform:uppercase; }
+.plan-day-title { font-size:12px; font-weight:700; color:var(--text); margin:4px 0 2px; }
+.plan-day-type { font-size:10px; }
+.type-theory { color:var(--cyan); }
+.type-practice { color:var(--green); }
+.type-review { color:var(--amber); }
+.type-mock { color:var(--red); }
+
+/* ── TABS ── */
+.tabs { display:flex; gap:4px; margin-bottom:16px; border-bottom:1px solid var(--border); padding-bottom:0; }
+.tab { padding:8px 16px; font-size:12px; cursor:pointer; color:var(--text3); border-bottom:2px solid transparent; margin-bottom:-1px; transition:all 0.2s; background:none; border-top:none; border-left:none; border-right:none; font-family:inherit; }
+.tab:hover { color:var(--text); }
+.tab.active { color:var(--green); border-bottom-color:var(--green); }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+
+/* ── STRATEGY STEPS ── */
+.strategy-steps { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+.strategy-step { background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:16px; }
+.step-num { font-size:10px; color:var(--green); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px; font-weight:700; }
+.step-title { font-size:14px; font-weight:700; color:var(--text); margin-bottom:8px; }
+.step-content { color:var(--text2); font-size:12px; line-height:1.6; }
+.step-content li { list-style:none; padding-left:12px; position:relative; margin-bottom:3px; }
+.step-content li::before { content:'→'; position:absolute; left:0; color:var(--green); }
+
+/* ── CHEATSHEET ── */
+.cheatsheet-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; }
+.cheatsheet-card { background:var(--bg3); border:1px solid var(--border); border-radius:8px; padding:16px; }
+.cheatsheet-card h4 { color:var(--cyan); font-size:13px; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid var(--border); }
+.cheatsheet-row { display:flex; justify-content:space-between; align-items:baseline; padding:4px 0; border-bottom:1px solid rgba(255,255,255,0.03); font-size:12px; }
+.cheatsheet-row:last-child { border-bottom:none; }
+.cs-key { color:var(--text2); }
+.cs-val { color:var(--green); font-family:'SF Mono',Consolas,monospace; }
+.cs-warn { color:var(--amber); }
+
+/* ── PROGRESS BAR ── */
+.coverage-bars { display:flex; flex-direction:column; gap:10px; }
+.cov-row { display:flex; align-items:center; gap:12px; }
+.cov-label { width:180px; font-size:12px; color:var(--text2); flex-shrink:0; }
+.cov-bar { flex:1; height:8px; background:var(--bg4); border-radius:4px; overflow:hidden; }
+.cov-fill { height:100%; border-radius:4px; background:linear-gradient(90deg,var(--green),var(--cyan)); transition:width 1s ease; }
+.cov-pct { width:36px; text-align:right; font-size:12px; color:var(--green); font-weight:700; flex-shrink:0; }
+
+/* ── HIGHLIGHT BOXES ── */
+.highlight { border-left:3px solid var(--green); background:rgba(0,210,106,0.05); padding:12px 16px; border-radius:0 6px 6px 0; margin:12px 0; font-size:13px; color:var(--text2); }
+.highlight.warn { border-color:var(--amber); background:rgba(255,184,0,0.05); }
+.highlight.error { border-color:var(--red); background:rgba(255,77,77,0.05); }
+
+/* ── TAG PILLS ── */
+.tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; }
+.tag { font-size:10px; padding:2px 8px; border-radius:3px; text-transform:uppercase; letter-spacing:0.5px; }
+.tag-green { background:rgba(0,210,106,0.12); color:var(--green); }
+.tag-cyan { background:rgba(0,200,255,0.12); color:var(--cyan); }
+.tag-amber { background:rgba(255,184,0,0.12); color:var(--amber); }
+.tag-red { background:rgba(255,77,77,0.12); color:var(--red); }
+.tag-purple { background:rgba(168,85,247,0.12); color:var(--purple); }
+
+/* ── MODAL ── */
+.modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:1000; align-items:center; justify-content:center; padding:20px; }
+.modal-overlay.open { display:flex; }
+.modal { background:var(--bg3); border:1px solid var(--border2); border-radius:12px; max-width:680px; width:100%; max-height:80vh; overflow-y:auto; padding:28px; position:relative; }
+.modal-close { position:absolute; top:16px; right:16px; background:var(--bg4); border:1px solid var(--border); color:var(--text2); font-size:18px; width:32px; height:32px; border-radius:50%; cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.modal-close:hover { color:var(--text); border-color:var(--green); }
+.modal-title { font-size:18px; font-weight:700; color:var(--text); margin-bottom:20px; }
+
+/* ── MISC ── */
+.divider { height:1px; background:var(--border); margin:32px 0; }
+.badge { display:inline-block; font-size:11px; padding:2px 8px; border-radius:4px; margin:0 2px; }
+.footer { text-align:center; padding:40px 0; color:var(--text3); font-size:12px; border-top:1px solid var(--border); margin-top:64px; }
+a { color:var(--cyan); text-decoration:none; }
+a:hover { color:var(--green); }
+.scrollbar-thin { scrollbar-width:thin; scrollbar-color:var(--border2) transparent; }
+::-webkit-scrollbar { width:6px; height:6px; }
+::-webkit-scrollbar-track { background:transparent; }
+::-webkit-scrollbar-thumb { background:var(--border2); border-radius:3px; }
+.grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media(max-width:600px) { .grid-2,.pattern-body { grid-template-columns:1fr; } .hero h1 { font-size:24px; } }
+</style>
+</head>
+<body>
+
+<nav>
+  <span class="nav-logo">⬡ GRAPH MASTERY</span>
+  <a href="#fundamentals">Fundamentals</a>
+  <a href="#patterns">Patterns</a>
+  <a href="#recognition">Recognition</a>
+  <a href="#cheatsheet">Cheatsheet</a>
+  <a href="#templates">Templates</a>
+  <a href="#questions">Questions</a>
+  <a href="#strategy">Strategy</a>
+  <a href="#decision">Decision Tree</a>
+  <a href="#plan">30-Day Plan</a>
+</nav>
+
+<div class="container">
+
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-tag">FAANG Interview Preparation · 2025</div>
+  <h1>Graph DSA Mastery Roadmap</h1>
+  <p>The most comprehensive graph algorithm guide for FAANG, MAANG, Uber, Goldman Sachs & top product companies. Master every pattern, template, and recognition rule.</p>
+  <div class="hero-stats">
+    <div class="stat"><span class="stat-num">16</span><span class="stat-label">Core Patterns</span></div>
+    <div class="stat"><span class="stat-num">100+</span><span class="stat-label">Recognition Rules</span></div>
+    <div class="stat"><span class="stat-num">100</span><span class="stat-label">Curated LeetCode</span></div>
+    <div class="stat"><span class="stat-num">95%</span><span class="stat-label">Interview Coverage</span></div>
+    <div class="stat"><span class="stat-num">5</span><span class="stat-label">Languages</span></div>
+  </div>
+</div>
+
+<!-- ── SECTION 1: FUNDAMENTALS ── -->
+<section id="fundamentals">
+  <div class="section-header">
+    <div class="section-num">1</div>
+    <h2>Graph Fundamentals</h2>
+  </div>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>Graph Representation</h3>
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab(this,'adj-matrix')">Adjacency Matrix</button>
+        <button class="tab" onclick="switchTab(this,'adj-list')">Adjacency List</button>
+        <button class="tab" onclick="switchTab(this,'edge-list')">Edge List</button>
+      </div>
+      <div id="adj-matrix" class="tab-content active">
+        <div class="highlight">2D array where <code>matrix[i][j] = 1</code> means edge i→j exists. Best for dense graphs.</div>
+        <pre class="code-block"><span class="c">// Space: O(V²), Time for edge check: O(1)</span>
+<span class="k">int</span> <span class="var">n</span> = <span class="n">5</span>;
+<span class="k">int</span> <span class="var">adj</span>[<span class="n">5</span>][<span class="n">5</span>] = {<span class="n">0</span>};  <span class="c">// Initialize all to 0</span>
+<span class="var">adj</span>[<span class="n">0</span>][<span class="n">1</span>] = <span class="n">1</span>;       <span class="c">// Edge 0 → 1</span>
+<span class="var">adj</span>[<span class="n">1</span>][<span class="n">2</span>] = <span class="n">1</span>;       <span class="c">// Edge 1 → 2</span>
+
+<span class="c">// Weighted: adj[i][j] = weight</span>
+<span class="c">// Undirected: also set adj[j][i] = 1</span>
+<span class="c">// Pros: O(1) edge check, simple</span>
+<span class="c">// Cons: O(V²) space even for sparse</span></pre>
+      </div>
+      <div id="adj-list" class="tab-content">
+        <div class="highlight">Array of lists. Best for sparse graphs. Default choice in most interviews.</div>
+        <pre class="code-block"><span class="c">// Space: O(V+E), Edge check: O(degree)</span>
+<span class="k">vector</span>&lt;<span class="k">vector</span>&lt;<span class="k">int</span>&gt;&gt; <span class="var">adj</span>(<span class="n">n</span>);
+<span class="var">adj</span>[<span class="n">0</span>].push_back(<span class="n">1</span>);   <span class="c">// 0 → 1</span>
+<span class="var">adj</span>[<span class="n">1</span>].push_back(<span class="n">2</span>);   <span class="c">// 1 → 2</span>
+
+<span class="c">// Weighted: vector&lt;pair&lt;int,int&gt;&gt;</span>
+<span class="k">vector</span>&lt;<span class="k">vector</span>&lt;<span class="k">pair</span>&lt;<span class="k">int</span>,<span class="k">int</span>&gt;&gt;&gt; <span class="var">wadj</span>(<span class="var">n</span>);
+<span class="var">wadj</span>[<span class="n">0</span>].push_back({<span class="n">1</span>,<span class="n">5</span>}); <span class="c">// 0 → 1, weight 5</span>
+<span class="c">// Pros: Memory efficient, fast iteration</span></pre>
+      </div>
+      <div id="edge-list" class="tab-content">
+        <div class="highlight">List of (u,v,w) triples. Used by Kruskal, Bellman-Ford.</div>
+        <pre class="code-block"><span class="c">// Space: O(E), good for sorting edges</span>
+<span class="k">vector</span>&lt;<span class="k">tuple</span>&lt;<span class="k">int</span>,<span class="k">int</span>,<span class="k">int</span>&gt;&gt; <span class="var">edges</span>;
+<span class="var">edges</span>.push_back({<span class="n">0</span>,<span class="n">1</span>,<span class="n">5</span>}); <span class="c">// u,v,weight</span>
+<span class="var">edges</span>.push_back({<span class="n">1</span>,<span class="n">2</span>,<span class="n">3</span>});
+
+<span class="c">// Sort by weight (Kruskal):</span>
+<span class="fn">sort</span>(<span class="var">edges</span>.begin(), <span class="var">edges</span>.end());
+<span class="c">// or sort by [](a,b){return get&lt;2&gt;(a)&lt;get&lt;2&gt;(b);}</span></pre>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Graph Types — Quick Reference</h3>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
+        <div style="background:var(--bg4);padding:12px;border-radius:6px;border:1px solid var(--border);">
+          <div style="color:var(--cyan);font-size:11px;font-weight:700;margin-bottom:6px;">DIRECTED (Digraph)</div>
+          <div style="color:var(--text2);font-size:12px;">Edges have direction (u→v ≠ v→u). Examples: Web links, DAGs, dependency graphs, Twitter follows.</div>
+        </div>
+        <div style="background:var(--bg4);padding:12px;border-radius:6px;border:1px solid var(--border);">
+          <div style="color:var(--green);font-size:11px;font-weight:700;margin-bottom:6px;">UNDIRECTED</div>
+          <div style="color:var(--text2);font-size:12px;">Edges are bidirectional. Examples: Facebook friends, road networks, islands connectivity.</div>
+        </div>
+        <div style="background:var(--bg4);padding:12px;border-radius:6px;border:1px solid var(--border);">
+          <div style="color:var(--amber);font-size:11px;font-weight:700;margin-bottom:6px;">WEIGHTED</div>
+          <div style="color:var(--text2);font-size:12px;">Each edge has a cost/distance. Use Dijkstra, Bellman-Ford, Prim, Kruskal.</div>
+        </div>
+        <div style="background:var(--bg4);padding:12px;border-radius:6px;border:1px solid var(--border);">
+          <div style="color:var(--purple);font-size:11px;font-weight:700;margin-bottom:6px;">DAG</div>
+          <div style="color:var(--text2);font-size:12px;">Directed Acyclic Graph. Enables topological sort. Course schedule, build deps, task ordering.</div>
+        </div>
+      </div>
+      <div class="highlight warn">⚡ Interview Key: Always clarify graph type before coding. Ask: directed? weighted? cycles possible?</div>
+    </div>
+  </div>
+
+  <div class="card-grid-3" style="margin-top:16px;">
+    <div class="card">
+      <div style="color:var(--cyan);font-size:11px;font-weight:700;margin-bottom:8px;">SPARSE vs DENSE</div>
+      <div style="color:var(--text2);font-size:12px;">Sparse: E ≈ O(V). Use adjacency list.<br>Dense: E ≈ O(V²). Matrix may be fine.<br>Rule: Grid graphs are always sparse.</div>
+    </div>
+    <div class="card">
+      <div style="color:var(--green);font-size:11px;font-weight:700;margin-bottom:8px;">CONNECTED COMPONENTS</div>
+      <div style="color:var(--text2);font-size:12px;">Group of nodes where all are reachable from each other. Find using BFS/DFS or DSU. Count = islands problem.</div>
+    </div>
+    <div class="card">
+      <div style="color:var(--amber);font-size:11px;font-weight:700;margin-bottom:8px;">DEGREE</div>
+      <div style="color:var(--text2);font-size:12px;">In-degree: edges coming in.<br>Out-degree: edges going out.<br>Euler path: exactly 2 nodes odd degree.<br>Topological: start from in-degree 0.</div>
+    </div>
+    <div class="card">
+      <div style="color:var(--red);font-size:11px;font-weight:700;margin-bottom:8px;">BIPARTITE</div>
+      <div style="color:var(--text2);font-size:12px;">Can color graph with 2 colors such that no adjacent nodes share color. Check: BFS/DFS 2-coloring. No odd cycles.</div>
+    </div>
+    <div class="card">
+      <div style="color:var(--purple);font-size:11px;font-weight:700;margin-bottom:8px;">TREE AS GRAPH</div>
+      <div style="color:var(--text2);font-size:12px;">Tree = undirected connected graph with V-1 edges and no cycles. Useful: treat tree problems as graph problems.</div>
+    </div>
+    <div class="card">
+      <div style="color:var(--pink);font-size:11px;font-weight:700;margin-bottom:8px;">GRID GRAPH</div>
+      <div style="color:var(--text2);font-size:12px;">2D matrix as graph. Each cell = node. 4-directional or 8-directional edges. BFS for shortest path in unweighted grid.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 2: PATTERNS ── -->
+<section id="patterns">
+  <div class="section-header">
+    <div class="section-num">2</div>
+    <h2>Core Graph Patterns (16 Families)</h2>
+  </div>
+
+  <!-- PATTERN: BFS -->
+  <div class="pattern-card">
+    <div class="pattern-header">
+      <span class="pattern-badge badge-bfs">Traversal</span>
+      <span class="pattern-title">A · Breadth-First Search (BFS)</span>
+    </div>
+    <div class="pattern-body">
+      <div>
+        <div class="info-row"><div class="info-label">Intuition</div><div class="info-val">Explore level by level. Use a queue. Guaranteed shortest path in unweighted graphs.</div></div>
+        <div class="info-row"><div class="info-label">Recognition</div><div class="info-val">Shortest path (unweighted), level-order, minimum steps, "nearest X", spread simulation (rotting oranges)</div></div>
+        <div class="info-row"><div class="info-label">Time</div><div class="info-val green">O(V + E)</div></div>
+        <div class="info-row"><div class="info-label">Space</div><div class="info-val green">O(V)</div></div>
+        <div class="lc-list">
+          <span class="lc-badge lc-med">102 Binary Tree Level Order</span>
+          <span class="lc-badge lc-med">127 Word Ladder</span>
+          <span class="lc-badge lc-med">994 Rotting Oranges</span>
+          <span class="lc-badge lc-easy">1091 Shortest Path Binary Matrix</span>
+          <span class="lc-badge lc-med">542 01 Matrix</span>
+          <span class="lc-badge lc-med">286 Walls and Gates</span>
+        </div>
+      </div>
+      <div>
+        <pre class="code-block"><span class="c">// BFS Template — Python</span>
+<span class="k">from</span> <span class="t">collections</span> <span class="k">import</span> <span class="fn">deque</span>
+
+<span class="k">def</span> <span class="fn">bfs</span>(<span class="var">graph</span>, <span class="var">start</span>):
+    <span class="var">visited</span> = {<span class="var">start</span>}
+    <span class="var">queue</span> = <span class="fn">deque</span>([<span class="var">start</span>])
+    <span class="var">dist</span> = {<span class="var">start</span>: <span class="n">0</span>}
+    
+    <span class="k">while</span> <span class="var">queue</span>:
+        <span class="var">node</span> = <span class="var">queue</span>.<span class="fn">popleft</span>()
+        
+        <span class="k">for</span> <span class="var">nbr</span> <span class="k">in</span> <span class="var">graph</span>[<span class="var">node</span>]:
+            <span class="k">if</span> <span class="var">nbr</span> <span class="k">not in</span> <span class="var">visited</span>:
+                <span class="var">visited</span>.<span class="fn">add</span>(<span class="var">nbr</span>)
+                <span class="var">dist</span>[<span class="var">nbr</span>] = <span class="var">dist</span>[<span class="var">node</span>] + <span class="n">1</span>
+                <span class="var">queue</span>.<span class="fn">append</span>(<span class="var">nbr</span>)
+    
+    <span class="k">return</span> <span class="var">dist</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATTERN: DFS -->
+  <div class="pattern-card">
+    <div class="pattern-header">
+      <span class="pattern-badge badge-dfs">Traversal</span>
+      <span class="pattern-title">A · Depth-First Search (DFS)</span>
+    </div>
+    <div class="pattern-body">
+      <div>
+        <div class="info-row"><div class="info-label">Intuition</div><div class="info-val">Go as deep as possible before backtracking. Uses recursion stack (implicit) or explicit stack.</div></div>
+        <div class="info-row"><div class="info-label">Recognition</div><div class="info-val">Cycle detection, connected components, topological sort, path existence, flood fill, maze solving</div></div>
+        <div class="info-row"><div class="info-label">Time</div><div class="info-val green">O(V + E)</div></div>
+        <div class="info-row"><div class="info-label">Space</div><div class="info-val amber">O(V) recursion stack</div></div>
+        <div class="lc-list">
+          <span class="lc-badge lc-med">200 Number of Islands</span>
+          <span class="lc-badge lc-med">130 Surrounded Regions</span>
+          <span class="lc-badge lc-med">417 Pacific Atlantic</span>
+          <span class="lc-badge lc-med">133 Clone Graph</span>
+          <span class="lc-badge lc-hard">329 Longest Path DAG</span>
+        </div>
+      </div>
+      <div>
+        <pre class="code-block"><span class="c">// DFS Template — Python (iterative)</span>
+<span class="k">def</span> <span class="fn">dfs</span>(<span class="var">graph</span>, <span class="var">start</span>):
+    <span class="var">visited</span> = <span class="fn">set</span>()
+    <span class="var">stack</span> = [<span class="var">start</span>]
+    
+    <span class="k">while</span> <span class="var">stack</span>:
+        <span class="var">node</span> = <span class="var">stack</span>.<span class="fn">pop</span>()
+        <span class="k">if</span> <span class="var">node</span> <span class="k">in</span> <span class="var">visited</span>: <span class="k">continue</span>
+        <span class="var">visited</span>.<span class="fn">add</span>(<span class="var">node</span>)
+        
+        <span class="k">for</span> <span class="var">nbr</span> <span class="k">in</span> <span class="var">graph</span>[<span class="var">node</span>]:
+            <span class="k">if</span> <span class="var">nbr</span> <span class="k">not in</span> <span class="var">visited</span>:
+                <span class="var">stack</span>.<span class="fn">append</span>(<span class="var">nbr</span>)
+    
+    <span class="k">return</span> <span class="var">visited</span>
+
+<span class="c"># Recursive version:</span>
+<span class="k">def</span> <span class="fn">dfs_rec</span>(<span class="var">node</span>, <span class="var">visited</span>, <span class="var">graph</span>):
+    <span class="var">visited</span>.<span class="fn">add</span>(<span class="var">node</span>)
+    <span class="k">for</span> <span class="var">nbr</span> <span class="k">in</span> <span class="var">graph</span>[<span class="var">node</span>]:
+        <span class="k">if</span> <span class="var">nbr</span> <span class="k">not in</span> <span class="var">visited</span>:
+            <span class="fn">dfs_rec</span>(<span class="var">nbr</span>, <span class="var">visited</span>, <span class="var">graph</span>)</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATTERN: Multi-Source BFS -->
+  <div class="pattern-card">
+    <div class="pattern-header">
+      <span class="pattern-badge badge-bfs">Multi-Source BFS</span>
+      <span class="pattern-title">A · Multi-Source BFS</span>
+    </div>
+    <div class="pattern-body">
+      <div>
+        <div class="info-row"><div class="info-label">Intuition</div><div class="info-val">Start BFS from multiple nodes simultaneously. Perfect when you need distance to nearest source from every node.</div></div>
+        <div class="info-row"><div class="info-label">Recognition</div><div class="info-val">"Distance to nearest X", "All 0s spread", "Zombie spread", multiple sources that emit simultaneously</div></div>
+        <div class="info-row"><div class="info-label">Time</div><div class="info-val green">O(V + E)</div></div>
+        <div class="info-row"><div class="info-label">Space</div><div class="info-val green">O(V)</div></div>
+        <div class="lc-list">
+          <span class="lc-badge lc-med">994 Rotting Oranges</span>
+          <span class="lc-badge lc-med">542 01 Matrix</span>
+          <span class="lc-badge lc-med">286 Walls and Gates</span>
+          <span class="lc-badge lc-med">1162 Max Distance to Coast</span>
+        </div>
+      </div>
+      <div>
+        <pre class="code-block"><span class="c"># Multi-Source BFS Template</span>
+<span class="k">def</span> <span class="fn">multi_source_bfs</span>(<span class="var">grid</span>):
+    <span class="var">rows</span>, <span class="var">cols</span> = <span class="fn">len</span>(<span class="var">grid</span>), <span class="fn">len</span>(<span class="var">grid</span>[<span class="n">0</span>])
+    <span class="var">queue</span> = <span class="fn">deque</span>()
+    <span class="var">visited</span> = <span class="fn">set</span>()
+    
+    <span class="c"># Seed ALL sources at distance 0</span>
+    <span class="k">for</span> <span class="var">r</span> <span class="k">in</span> <span class="fn">range</span>(<span class="var">rows</span>):
+        <span class="k">for</span> <span class="var">c</span> <span class="k">in</span> <span class="fn">range</span>(<span class="var">cols</span>):
+            <span class="k">if</span> <span class="var">grid</span>[<span class="var">r</span>][<span class="var">c</span>] == <span class="s">'source'</span>:
+                <span class="var">queue</span>.<span class="fn">append</span>((<span class="var">r</span>, <span class="var">c</span>, <span class="n">0</span>))
+                <span class="var">visited</span>.<span class="fn">add</span>((<span class="var">r</span>, <span class="var">c</span>))
+    
+    <span class="c"># Standard BFS from multiple starts</span>
+    <span class="k">while</span> <span class="var">queue</span>:
+        <span class="var">r</span>, <span class="var">c</span>, <span class="var">dist</span> = <span class="var">queue</span>.<span class="fn">popleft</span>()
+        <span class="k">for</span> <span class="var">dr</span>, <span class="var">dc</span> <span class="k">in</span> [(<span class="n">0</span>,<span class="n">1</span>),(<span class="n">0</span>,<span class="n">-1</span>),(<span class="n">1</span>,<span class="n">0</span>),(<span class="n">-1</span>,<span class="n">0</span>)]:
+            <span class="var">nr</span>, <span class="var">nc</span> = <span class="var">r</span>+<span class="var">dr</span>, <span class="var">c</span>+<span class="var">dc</span>
+            <span class="k">if</span> <span class="fn">valid</span>(<span class="var">nr</span>,<span class="var">nc</span>) <span class="k">and</span> (<span class="var">nr</span>,<span class="var">nc</span>) <span class="k">not in</span> <span class="var">visited</span>:
+                <span class="var">visited</span>.<span class="fn">add</span>((<span class="var">nr</span>,<span class="var">nc</span>))
+                <span class="var">queue</span>.<span class="fn">append</span>((<span class="var">nr</span>,<span class="var">nc</span>,<span class="var">dist</span>+<span class="n">1</span>))</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATTERN: Cycle Detection -->
+  <div class="pattern-card">
+    <div class="pattern-header">
+      <span class="pattern-badge badge-dfs">Cycle</span>
+      <span class="pattern-title">C · Cycle Detection (Directed + Undirected)</span>
+    </div>
+    <div class="pattern-body">
+      <div>
+        <div class="info-row"><div class="info-label">Undirected — DFS</div><div class="info-val">Track parent. If neighbor visited and not parent → cycle.</div></div>
+        <div class="info-row"><div class="info-label">Directed — DFS + Color</div><div class="info-val">WHITE(0)→GRAY(1)→BLACK(2). If neighbor is GRAY → back edge → cycle.</div></div>
+        <div class="info-row"><div class="info-label">Directed — Kahn's</div><div class="info-val">If topological sort processes < V nodes → cycle exists.</div></div>
+        <div class="info-row"><div class="info-label">Time / Space</div><div class="info-val green">O(V + E) / O(V)</div></div>
+        <div class="lc-list">
+          <span class="lc-badge lc-med">207 Course Schedule</span>
+          <span class="lc-badge lc-med">261 Graph Valid Tree</span>
+          <span class="lc-badge lc-med">684 Redundant Connection</span>
+          <span class="lc-badge lc-hard">685 Redundant Connection II</span>
+        </div>
+      </div>
+      <div>
+        <pre class="code-block"><span class="c"># Cycle Detection Directed — 3-color DFS</span>
+<span class="c"># color: 0=unvisited, 1=processing, 2=done</span>
+<span class="k">def</span> <span class="fn">has_cycle</span>(<span class="var">graph</span>, <span class="var">n</span>):
+    <span class="var">color</span> = [<span class="n">0</span>] * <span class="var">n</span>
+    
+    <span class="k">def</span> <span class="fn">dfs</span>(<span class="var">node</span>):
+        <span class="var">color</span>[<span class="var">node</span>] = <span class="n">1</span>  <span class="c"># Mark as processing</span>
+        <span class="k">for</span> <span class="var">nbr</span> <span class="k">in</span> <span class="var">graph</span>[<span class="var">node</span>]:
+            <span class="k">if</span> <span class="var">color</span>[<span class="var">nbr</span>] == <span class="n">1</span>: <span class="k">return</span> <span class="k">True</span>
+            <span class="k">if</span> <span class="var">color</span>[<span class="var">nbr</span>] == <span class="n">0</span>:
+                <span class="k">if</span> <span class="fn">dfs</span>(<span class="var">nbr</span>): <span class="k">return</span> <span class="k">True</span>
+        <span class="var">color</span>[<span class="var">node</span>] = <span class="n">2</span>  <span class="c"># Mark as done</span>
+        <span class="k">return</span> <span class="k">False</span>
+    
+    <span class="k">return</span> <span class="fn">any</span>(<span class="fn">dfs</span>(<span class="var">i</span>) <span class="k">for</span> <span class="var">i</span> <span class="k">in</span> <span class="fn">range</span>(<span class="var">n</span>)
+                <span class="k">if</span> <span class="var">color</span>[<span class="var">i</span>] == <span class="n">0</span>)</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATTERN: Topological Sort -->
+  <div class="pattern-card">
+    <div class="pattern-header">
+      <span class="pattern-badge badge-topo">Topological</span>
+      <span class="pattern-title">D · Topological Sort — BFS (Kahn's) + DFS</span>
+    </div>
+    <div class="pattern-body">
+      <div>
+        <div class="info-row"><div class="info-label">Intuition</div><div class="info-val">Linear ordering of nodes such that for every edge u→v, u comes before v. Only valid for DAGs.</div></div>
+        <div class="info-row"><div class="info-label">Kahn's (BFS)</div><div class="info-val">Process nodes with in-degree 0 first. Decrement neighbors' in-degrees. Intuitive for cycle detection too.</div></div>
+        <div class="info-row"><div class="info-label">DFS Post-order</div><div class="info-val">Finish DFS → push to stack. Reverse stack = topo order.</div></div>
+        <div class="info-row"><div class="info-label">Time / Space</div><div class="info-val green">O(V + E) / O(V)</div></div>
+        <div class="lc-list">
+          <span class="lc-badge lc-med">207 Course Schedule</span>
+          <span class="lc-badge lc-med">210 Course Schedule II</span>
+          <span class="lc-badge lc-hard">269 Alien Dictionary</span>
+          <span class="lc-badge lc-med">310 Min Height Trees</span>
+          <span class="lc-badge lc-hard">444 Sequence Reconstruction</span>
+        </div>
+      </div>
+      <div>
+        <pre class="code-block"><span class="c"># Kahn's Algorithm — BFS Topo Sort</span>
+<span class="k">from</span> <span class="t">collections</span> <span class="k">import</span> <span class="fn">deque</span>, <span class="fn">defaultdict</span>
+
+<span class="k">def</span> <span class="fn">topo_sort</span>(<span class="var">n</span>, <span class="var">edges</span>):
+    <span class="var">graph</span> = <span class="fn">defaultdict</span>(<span class="fn">list</span>)
+    <span class="var">indegree</span> = [<span class="n">0</span>] * <span class="var">n</span>
+    
+    <span class="k">for</span> <span class="var">u</span>, <span class="var">v</span> <span class="k">in</span> <span class="var">edges</span>:
+        <span class="var">graph</span>[<span class="var">u</span>].<span class="fn">append</span>(<span class="var">v</span>)
+        <span class="var">indegree</span>[<span class="var">v</span>] += <span class="n">1</span>
+    
+    <span class="var">queue</span> = <span class="fn">deque</span>(<span class="var">i</span> <span class="k">for</span> <span class="var">i</span> <span class="k">in</span> <span class="fn">range</span>(<span class="var">n</span>)
+                  <span class="k">if</span> <span class="var">indegree</span>[<span class="var">i</span>] == <span class="n">0</span>)
+    <span class="var">order</span> = []
+    
+    <span class="k">while</span> <span class="var">queue</span>:
+        <span class="var">node</span> = <span class="var">queue</span>.<span class="fn">popleft</span>()
+        <span class="var">order</span>.<span class="fn">append</span>(<span class="var">node</span>)
+        <span class="k">for</span> <span class="var">nbr</span> <span class="k">in</span> <span class="var">graph</span>[<span class="var">node</span>]:
+            <span class="var">indegree</span>[<span class="var">nbr</span>] -= <span class="n">1</span>
+            <span class="k">if</span> <span class="var">indegree</span>[<span class="var">nbr</span>] == <span class="n">0</span>:
+                <span class="var">queue</span>.<span class="fn">append</span>(<span class="var">nbr</span>)
+    
+    <span class="c"># len(order) < n → cycle!</span>
+    <span class="k">return</span> <span class="var">order</span> <span class="k">if</span> <span class="fn">len</span>(<span class="var">order</span>) == <span class="var">n</span> <span class="k">else</span> []</pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATTERN: Dijkstra -->
+  <div class="pattern-card">
+    <div class="pattern-header">
+      <span class="pattern-badge badge-sp">Shortest Path</span>
+      <span class="pattern-title">E · Dijkstra's Algorithm (Single-Source, Non-Negative Weights)</span>
+    </div>
+    <div class="pattern-body">
+      <div>
+        <div class="info-row"><div class="info-label">Intuition</div><div class="info-val">Greedy. Always expand nearest unvisited node. Uses min-heap. Fails with negative edges.</div></div>
+        <div class="info-row"><div class="info-label">Recognition</div><div class="info-val">"Shortest path weighted graph", "minimum cost/time/effort", "network delay time", "cheapest flights"</div></div>
+        <div class="info-row"><div class="info-label">Time</div><div class="info-val amber">O((V + E) log V) with binary heap</div></div>
+        <div class="info-row"><div class="info-label">Space</div><div class="info-val amber">O(V + E)</div></div>
+        <div class="lc-list">
+          <span class="lc-badge lc-med">743 Network Delay Time</span>
+          <span class="lc-badge lc-med">787 Cheapest Flights K Stops</span>
+          <span class="lc-badge lc-med">1631 Path Min Effort</span>
+          <span class="lc-badge lc-hard">778 Swim in Rising Water</span>
+          <span class="lc-badge lc-hard">1514 Path Max Probability</span>
+        </div>
+      </div>
+      <div>
+        <pre class="code-block"><span class="c"># Dijkstra — Python (heapq)</span>
+<span class="k">import</span> <span class="t">heapq</span>
+
+<span class="k">def</span> <span class="fn">dijkstra</span>(<span class="var">graph</span>, <span class="var">src</span>, <span class="var">n</span>):
+    <span class="var">dist</span> = [<span class="fn">float</span>(<span class="s">'inf'</span>)] * <span class="var">n</span>
+    <span class="var">dist</span>[<span class="var">src</span>] = <span class="n">0</span>
+    <span class="var">heap</span> = [(<span class="n">0</span>, <span class="var">src</span>)]  <span class="c"># (distance, node)</span>
+    
+    <span class="k">while</span> <span class="var">heap</span>:
+        <span class="var">d</span>, <span class="var">u</span> = <span class="t">heapq</span>.<span class="fn">heappop</span>(<span class="var">heap</span>)
+        
+        <span class="k">if</span> <span class="var">d</span> > <span class="var">dist</span>[<span class="var">u</span>]: <span class="k">continue</span>  <span class="c"># stale entry</span>
+        
+        <span class="k">for</span> <span class="var">v</span>, <span class="var">w</span> <span class="k">in</span> <span class="var">graph</span>[<span class="var">u</span>]:
+            <span class="k">if</span> <span class="var">dist</span>[<span class="var">u</span>] + <span class="var">w</span> < <span class="var">dist</span>[<span class="var">v</span>]:
+                <span class="var">dist</span>[<span class="var">v</span>] = <span class="var">dist</span>[<span class="var">u</span>] + <span class="var">w</span>
+                <span class="t">heapq</span>.<span class="fn">heappush</span>(<span class="var">heap</span>, 
+                    (<span class="var">dist</span>[<span class="var">v</span>], <span class="var">v</span>))
+    
+    <span class="k">return</span> <span class="var">dist</span>
+
+<span class="c"># Key: "if d > dist[u]: continue" is the</span>
+<span class="c"># lazy deletion trick — crucial for performance</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATTERN: Bellman-Ford -->
+  <div class="pattern-card">
+    <div class="pattern-header">
+      <span class="pattern-badge badge-sp">Shortest Path</span>
+      <span class="pattern-title">E · Bellman-Ford (Negative Weights, K-Hops)</span>
+    </div>
+    <div class="pattern-body">
+      <div>
+        <div class="info-row"><div class="info-label">Intuition</div><div class="info-val">Relax ALL edges V-1 times. Can handle negative weights. V-th relaxation finds negative cycle.</div></div>
+        <div class="info-row"><div class="info-label">Recognition</div><div class="info-val">"Cheapest flights within K stops" (use K+1 rounds), negative weights, negative cycle detection</div></div>
+        <div class="info-row"><div class="info-label">Time</div><div class="info-val red">O(VE)</div></div>
+        <div class="info-row"><div class="info-label">Space</div><div class="info-val green">O(V)</div></div>
+        <div class="lc-list">
+          <span class="lc-badge lc-med">787 Cheapest Flights K Stops</span>
+          <span class="lc-badge lc-hard">743 Negative Cycle Detection</span>
+        </div>
+      </div>
+      <div>
+        <pre class="code-block"><span class="c"># Bellman-Ford Template</span>
+<span class="k">def</span> <span class="fn">bellman_ford</span>(<span class="var">n</span>, <span class="var">edges</span>, <span class="var">src</span>):
+    <span class="var">dist</span> = [<span class="fn">float</span>(<span class="s">'inf'</span>)] * <span class="var">n</span>
+    <span class="var">dist</span>[<span class="var">src</span>] = <span class="n">0</span>
+    
+    <span class="c"># Relax V-1 times</span>
+    <span class="k">for</span> <span class="var">_</span> <span class="k">in</span> <span class="fn">range</span>(<span class="var">n</span> - <span class="n">1</span>):
+        <span class="k">for</span> <span class="var">u</span>, <span class="var">v</span>, <span class="var">w</span> <span class="k">in</span> <span class="var">edges</span>:
+            <span class="k">if</span> <span class="var">dist</span>[<span class="var">u</span>] + <span class="var">w</span> < <span class="var">dist</span>[<span class="var">v</span>]:
+                <span class="var">dist</span>[<span class="var">v</span>] = <span class="var">dist</span>[<span class="var">u</span>] + <span class="var">w</span>
+    
+    <span class="c"># Check negative cycle (V-th relaxation)</span>
+    <span class="k">for</span> <span class="var">u</span>, <span class="var">v</span>, <span class="var">w</span> <span class="k">in</span> <span class="var">edges</span>:
+        <span class="k">if</span> <span class="var">dist</span>[<span class="var">u</span>] + <span class="var">w</span> < <span class="var">dist</span>[<span class="var">v</span>]:
+            <span class="k">return</span> <span class="k">None</span>  <span class="c"># negative cycle!</span>
+    
+    <span class="k">return</span> <span class="var">dist</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATTERN: Floyd-Warshall -->
+  <div class="pattern-card">
+    <div class="pattern-header">
+      <span class="pattern-badge badge-sp">Shortest Path</span>
+      <span class="pattern-title">E · Floyd-Warshall (All-Pairs Shortest Path)</span>
+    </div>
+    <div class="pattern-body">
+      <div>
+        <div class="info-row"><div class="info-label">Intuition</div><div class="info-val">DP: dp[i][j][k] = shortest path from i to j using vertices 0..k as intermediates. Simplifies to 2D.</div></div>
+        <div class="info-row"><div class="info-label">Recognition</div><div class="info-val">"All pairs shortest path", small graph (V ≤ 500), "find transitive closure", "Evaluate Division"</div></div>
+        <div class="info-row"><div class="info-label">Time</div><div class="info-val red">O(V³)</div></div>
+        <div class="info-row"><div class="info-label">Space</div><div class="info-val amber">O(V²)</div></div>
+        <div class="lc-list">
+          <span class="lc-badge lc-med">399 Evaluate Division</span>
+          <span class="lc-badge lc-hard">1334 Find City Fewest Neighbors</span>
+        </div>
+      </div>
+      <div>
+        <pre class="code-block"><span class="c"># Floyd-Warshall Template</span>
+<span class="k">def</span> <span class="fn">floyd_warshall</span>(<span class="var">n</span>, <span class="var">edges</span>):
+    <span class="var">INF</span> = <span class="fn">float</span>(<span class="s">'inf'</span>)
+    <span class="var">dist</span> = [[<span class="var">INF</span>]*<span class="var">n</span> <span class="k">for</span> <span class="var">_</span> <span class="k">in</span> <span class="fn">range</span>(<span class="var">n</span>)]
+    
+    <span class="k">for</span> <span class="var">i</span> <span class="k">in</span> <span class="fn">range</span>(<span class="var">n</span>): <span class="var">dist</span>[<span class="var">i</span>][<span class="var">i</span>] = <span class="n">0</span>
+    <span class="k">for</span> <span class="var">u</span>, <span class="var">v</span>, <span class="var">w</span> <span class="k">in</span> <span class="var">edges</span>: <span class="var">dist</span>[<span class="var">u</span>][<span class="var">v</span>] = <span class="var">w</span>
+    
+    <span class="k">for</span> <span class="var">k</span> <span class="k">in</span> <span class="fn">range</span>(<span class="var">n</span>):       <span class="c"># intermediate</span>
+        <span class="k">for</span> <span class="var">i</span> <span class="k">in</span> <span class="fn">range</span>(<span class="var">n</span>):     <span class="c"># source</span>
+            <span class="k">for</span> <span class="var">j</span> <span class="k">in</span> <span class="fn">range</span>(<span class="var">n</span>): <span class="c"># dest</span>
+                <span class="k">if</span> <span class="var">dist</span>[<span class="var">i</span>][<span class="var">k</span>] + <span class="var">dist</span>[<span class="var">k</span>][<span class="var">j</span>] < <span class="var">dist</span>[<span class="var">i</span>][<span class="var">j</span>]:
+                    <span class="var">dist</span>[<span class="var">i</span>][<span class="var">j</span>] = <span class="var">dist</span>[<span class="var">i</span>][<span class="var">k</span>] + <span class="var">dist</span>[<span class="var">k</span>][<span class="var">j</span>]
+    
+    <span class="k">return</span> <span class="var">dist</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATTERN: Union-Find -->
+  <div class="pattern-card">
+    <div class="pattern-header">
+      <span class="pattern-badge badge-dsu">DSU / Union-Find</span>
+      <span class="pattern-title">G · Union-Find / DSU (with Path Compression + Union by Rank)</span>
+    </div>
+    <div class="pattern-body">
+      <div>
+        <div class="info-row"><div class="info-label">Intuition</div><div class="info-val">Efficiently group nodes into sets. Find = which set? Union = merge sets. Near O(1) amortized with optimizations.</div></div>
+        <div class="info-row"><div class="info-label">Recognition</div><div class="info-val">Connected components, cycle detection undirected, Kruskal MST, accounts merge, redundant connection</div></div>
+        <div class="info-row"><div class="info-label">Time</div><div class="info-val green">O(α(n)) ≈ O(1) amortized</div></div>
+        <div class="info-row"><div class="info-label">Space</div><div class="info-val green">O(V)</div></div>
+        <div class="lc-list">
+          <span class="lc-badge lc-med">547 Number of Provinces</span>
+          <span class="lc-badge lc-med">684 Redundant Connection</span>
+          <span class="lc-badge lc-med">721 Accounts Merge</span>
+          <span class="lc-badge lc-med">1584 Min Cost Connect Points</span>
+          <span class="lc-badge lc-hard">959 Regions Cut By Slashes</span>
+        </div>
+      </div>
+      <div>
+        <pre class="code-block"><span class="c"># DSU with Path Compression + Union by Rank</span>
+<span class="k">class</span> <span class="t">DSU</span>:
+    <span class="k">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, <span class="var">n</span>):
+        <span class="var">self</span>.<span class="var">parent</span> = <span class="fn">list</span>(<span class="fn">range</span>(<span class="var">n</span>))
+        <span class="var">self</span>.<span class="var">rank</span> = [<span class="n">0</span>] * <span class="var">n</span>
+        <span class="var">self</span>.<span class="var">components</span> = <span class="var">n</span>
+    
+    <span class="k">def</span> <span class="fn">find</span>(<span class="var">self</span>, <span class="var">x</span>):
+        <span class="k">if</span> <span class="var">self</span>.<span class="var">parent</span>[<span class="var">x</span>] != <span class="var">x</span>:
+            <span class="var">self</span>.<span class="var">parent</span>[<span class="var">x</span>] = <span class="var">self</span>.<span class="fn">find</span>(
+                <span class="var">self</span>.<span class="var">parent</span>[<span class="var">x</span>])  <span class="c"># Path compress</span>
+        <span class="k">return</span> <span class="var">self</span>.<span class="var">parent</span>[<span class="var">x</span>]
+    
+    <span class="k">def</span> <span class="fn">union</span>(<span class="var">self</span>, <span class="var">x</span>, <span class="var">y</span>):
+        <span class="var">px</span>, <span class="var">py</span> = <span class="var">self</span>.<span class="fn">find</span>(<span class="var">x</span>), <span class="var">self</span>.<span class="fn">find</span>(<span class="var">y</span>)
+        <span class="k">if</span> <span class="var">px</span> == <span class="var">py</span>: <span class="k">return</span> <span class="k">False</span>  <span class="c"># Cycle!</span>
+        <span class="k">if</span> <span class="var">self</span>.<span class="var">rank</span>[<span class="var">px</span>] < <span class="var">self</span>.<span class="var">rank</span>[<span class="var">py</span>]:
+            <span class="var">px</span>, <span class="var">py</span> = <span class="var">py</span>, <span class="var">px</span>
+        <span class="var">self</span>.<span class="var">parent</span>[<span class="var">py</span>] = <span class="var">px</span>
+        <span class="k">if</span> <span class="var">self</span>.<span class="var">rank</span>[<span class="var">px</span>] == <span class="var">self</span>.<span class="var">rank</span>[<span class="var">py</span>]:
+            <span class="var">self</span>.<span class="var">rank</span>[<span class="var">px</span>] += <span class="n">1</span>
+        <span class="var">self</span>.<span class="var">components</span> -= <span class="n">1</span>
+        <span class="k">return</span> <span class="k">True</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATTERN: Kruskal & Prim MST -->
+  <div class="pattern-card">
+    <div class="pattern-header">
+      <span class="pattern-badge badge-mst">MST</span>
+      <span class="pattern-title">F · Minimum Spanning Tree — Kruskal + Prim</span>
+    </div>
+    <div class="pattern-body">
+      <div>
+        <div class="info-row"><div class="info-label">Kruskal</div><div class="info-val">Sort edges by weight. Add if it doesn't create cycle (use DSU). Best for sparse graphs.</div></div>
+        <div class="info-row"><div class="info-label">Prim</div><div class="info-val">Grow tree greedily. Always add min-weight edge to unvisited vertex. Use min-heap. Best for dense graphs.</div></div>
+        <div class="info-row"><div class="info-label">Kruskal Time</div><div class="info-val amber">O(E log E)</div></div>
+        <div class="info-row"><div class="info-label">Prim Time</div><div class="info-val amber">O(E log V)</div></div>
+        <div class="lc-list">
+          <span class="lc-badge lc-med">1584 Min Cost Connect All Points</span>
+          <span class="lc-badge lc-hard">1168 Optimize Water Distribution</span>
+          <span class="lc-badge lc-hard">1135 Connecting Cities Min Cost</span>
+        </div>
+      </div>
+      <div>
+        <pre class="code-block"><span class="c"># Kruskal's MST</span>
+<span class="k">def</span> <span class="fn">kruskal</span>(<span class="var">n</span>, <span class="var">edges</span>):
+    <span class="c"># edges: [(weight, u, v)]</span>
+    <span class="var">edges</span>.<span class="fn">sort</span>()  <span class="c"># sort by weight</span>
+    <span class="var">dsu</span> = <span class="t">DSU</span>(<span class="var">n</span>)
+    <span class="var">mst_cost</span>, <span class="var">mst_edges</span> = <span class="n">0</span>, []
+    
+    <span class="k">for</span> <span class="var">w</span>, <span class="var">u</span>, <span class="var">v</span> <span class="k">in</span> <span class="var">edges</span>:
+        <span class="k">if</span> <span class="var">dsu</span>.<span class="fn">union</span>(<span class="var">u</span>, <span class="var">v</span>):   <span class="c"># no cycle</span>
+            <span class="var">mst_cost</span> += <span class="var">w</span>
+            <span class="var">mst_edges</span>.<span class="fn">append</span>((<span class="var">u</span>, <span class="var">v</span>, <span class="var">w</span>))
+        <span class="k">if</span> <span class="fn">len</span>(<span class="var">mst_edges</span>) == <span class="var">n</span>-<span class="n">1</span>: <span class="k">break</span>
+    
+    <span class="k">return</span> <span class="var">mst_cost</span>
+
+<span class="c"># Prim's MST (min-heap)</span>
+<span class="k">def</span> <span class="fn">prim</span>(<span class="var">graph</span>, <span class="var">n</span>):
+    <span class="var">visited</span> = [<span class="k">False</span>] * <span class="var">n</span>
+    <span class="var">heap</span> = [(<span class="n">0</span>, <span class="n">0</span>)]  <span class="c"># (cost, node)</span>
+    <span class="var">total</span> = <span class="n">0</span>
+    <span class="k">while</span> <span class="var">heap</span>:
+        <span class="var">cost</span>, <span class="var">u</span> = <span class="t">heapq</span>.<span class="fn">heappop</span>(<span class="var">heap</span>)
+        <span class="k">if</span> <span class="var">visited</span>[<span class="var">u</span>]: <span class="k">continue</span>
+        <span class="var">visited</span>[<span class="var">u</span>] = <span class="k">True</span>
+        <span class="var">total</span> += <span class="var">cost</span>
+        <span class="k">for</span> <span class="var">v</span>, <span class="var">w</span> <span class="k">in</span> <span class="var">graph</span>[<span class="var">u</span>]:
+            <span class="k">if</span> <span class="k">not</span> <span class="var">visited</span>[<span class="var">v</span>]:
+                <span class="t">heapq</span>.<span class="fn">heappush</span>(<span class="var">heap</span>,(<span class="var">w</span>,<span class="var">v</span>))
+    <span class="k">return</span> <span class="var">total</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATTERN: Bridges & Articulation Points -->
+  <div class="pattern-card">
+    <div class="pattern-header">
+      <span class="pattern-badge badge-scc">Bridges/AP</span>
+      <span class="pattern-title">I · Bridges and Articulation Points (Tarjan's)</span>
+    </div>
+    <div class="pattern-body">
+      <div>
+        <div class="info-row"><div class="info-label">Intuition</div><div class="info-val">Bridge: edge whose removal disconnects graph. AP: vertex whose removal disconnects. Track discovery time & low values.</div></div>
+        <div class="info-row"><div class="info-label">Key Insight</div><div class="info-val">low[v] = min(disc[v], disc of back-edge ancestors). If low[v] > disc[u] → (u,v) is a bridge.</div></div>
+        <div class="info-row"><div class="info-label">Time / Space</div><div class="info-val green">O(V + E) / O(V)</div></div>
+        <div class="lc-list">
+          <span class="lc-badge lc-hard">1192 Critical Connections</span>
+          <span class="lc-badge lc-hard">1568 Min Days to Disconnect</span>
+        </div>
+      </div>
+      <div>
+        <pre class="code-block"><span class="c"># Bridges (Critical Connections) — Tarjan</span>
+<span class="k">def</span> <span class="fn">find_bridges</span>(<span class="var">n</span>, <span class="var">connections</span>):
+    <span class="var">graph</span> = <span class="fn">defaultdict</span>(<span class="fn">list</span>)
+    <span class="k">for</span> <span class="var">u</span>, <span class="var">v</span> <span class="k">in</span> <span class="var">connections</span>:
+        <span class="var">graph</span>[<span class="var">u</span>].<span class="fn">append</span>(<span class="var">v</span>)
+        <span class="var">graph</span>[<span class="var">v</span>].<span class="fn">append</span>(<span class="var">u</span>)
+    
+    <span class="var">disc</span> = [-<span class="n">1</span>] * <span class="var">n</span>
+    <span class="var">low</span>  = [<span class="n">0</span>] * <span class="var">n</span>
+    <span class="var">timer</span> = [<span class="n">0</span>]
+    <span class="var">bridges</span> = []
+    
+    <span class="k">def</span> <span class="fn">dfs</span>(<span class="var">u</span>, <span class="var">parent</span>):
+        <span class="var">disc</span>[<span class="var">u</span>] = <span class="var">low</span>[<span class="var">u</span>] = <span class="var">timer</span>[<span class="n">0</span>]
+        <span class="var">timer</span>[<span class="n">0</span>] += <span class="n">1</span>
+        <span class="k">for</span> <span class="var">v</span> <span class="k">in</span> <span class="var">graph</span>[<span class="var">u</span>]:
+            <span class="k">if</span> <span class="var">disc</span>[<span class="var">v</span>] == -<span class="n">1</span>:
+                <span class="fn">dfs</span>(<span class="var">v</span>, <span class="var">u</span>)
+                <span class="var">low</span>[<span class="var">u</span>] = <span class="fn">min</span>(<span class="var">low</span>[<span class="var">u</span>], <span class="var">low</span>[<span class="var">v</span>])
+                <span class="k">if</span> <span class="var">low</span>[<span class="var">v</span>] > <span class="var">disc</span>[<span class="var">u</span>]:
+                    <span class="var">bridges</span>.<span class="fn">append</span>([<span class="var">u</span>,<span class="var">v</span>])
+            <span class="k">elif</span> <span class="var">v</span> != <span class="var">parent</span>:
+                <span class="var">low</span>[<span class="var">u</span>] = <span class="fn">min</span>(<span class="var">low</span>[<span class="var">u</span>], <span class="var">disc</span>[<span class="var">v</span>])
+    
+    <span class="k">for</span> <span class="var">i</span> <span class="k">in</span> <span class="fn">range</span>(<span class="var">n</span>):
+        <span class="k">if</span> <span class="var">disc</span>[<span class="var">i</span>] == -<span class="n">1</span>: <span class="fn">dfs</span>(<span class="var">i</span>, -<span class="n">1</span>)
+    <span class="k">return</span> <span class="var">bridges</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATTERN: Bipartite -->
+  <div class="pattern-card">
+    <div class="pattern-header">
+      <span class="pattern-badge badge-bfs">Bipartite</span>
+      <span class="pattern-title">J · Bipartite Graph Check (2-Coloring)</span>
+    </div>
+    <div class="pattern-body">
+      <div>
+        <div class="info-row"><div class="info-label">Intuition</div><div class="info-val">Color graph with 2 colors. No adjacent nodes same color = bipartite. Fails if odd cycle found.</div></div>
+        <div class="info-row"><div class="info-label">Recognition</div><div class="info-val">"Can partition into 2 groups", "no odd cycles", "Is possible schedule" (2 teams), "Possible Bipartition"</div></div>
+        <div class="info-row"><div class="info-label">Time / Space</div><div class="info-val green">O(V + E) / O(V)</div></div>
+        <div class="lc-list">
+          <span class="lc-badge lc-med">785 Is Graph Bipartite</span>
+          <span class="lc-badge lc-med">886 Possible Bipartition</span>
+        </div>
+      </div>
+      <div>
+        <pre class="code-block"><span class="c"># Bipartite Check — BFS Coloring</span>
+<span class="k">def</span> <span class="fn">is_bipartite</span>(<span class="var">graph</span>):
+    <span class="var">n</span> = <span class="fn">len</span>(<span class="var">graph</span>)
+    <span class="var">color</span> = [-<span class="n">1</span>] * <span class="var">n</span>
+    
+    <span class="k">for</span> <span class="var">start</span> <span class="k">in</span> <span class="fn">range</span>(<span class="var">n</span>):  <span class="c"># handle disconnected</span>
+        <span class="k">if</span> <span class="var">color</span>[<span class="var">start</span>] != -<span class="n">1</span>: <span class="k">continue</span>
+        <span class="var">queue</span> = <span class="fn">deque</span>([<span class="var">start</span>])
+        <span class="var">color</span>[<span class="var">start</span>] = <span class="n">0</span>
+        
+        <span class="k">while</span> <span class="var">queue</span>:
+            <span class="var">u</span> = <span class="var">queue</span>.<span class="fn">popleft</span>()
+            <span class="k">for</span> <span class="var">v</span> <span class="k">in</span> <span class="var">graph</span>[<span class="var">u</span>]:
+                <span class="k">if</span> <span class="var">color</span>[<span class="var">v</span>] == -<span class="n">1</span>:
+                    <span class="var">color</span>[<span class="var">v</span>] = <span class="n">1</span> - <span class="var">color</span>[<span class="var">u</span>]
+                    <span class="var">queue</span>.<span class="fn">append</span>(<span class="var">v</span>)
+                <span class="k">elif</span> <span class="var">color</span>[<span class="var">v</span>] == <span class="var">color</span>[<span class="var">u</span>]:
+                    <span class="k">return</span> <span class="k">False</span>  <span class="c"># Odd cycle!</span>
+    
+    <span class="k">return</span> <span class="k">True</span></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- PATTERN: 0-1 BFS -->
+  <div class="pattern-card">
+    <div class="pattern-header">
+      <span class="pattern-badge badge-sp">0-1 BFS</span>
+      <span class="pattern-title">A · 0-1 BFS (Deque BFS for 0/1 Weighted Edges)</span>
+    </div>
+    <div class="pattern-body">
+      <div>
+        <div class="info-row"><div class="info-label">Intuition</div><div class="info-val">When edges have only weight 0 or 1. Push weight-0 edges to FRONT of deque, weight-1 to BACK. Faster than Dijkstra.</div></div>
+        <div class="info-row"><div class="info-label">Recognition</div><div class="info-val">"Min cost with moves costing 0 or 1", grid with free/cost moves, "Minimum Obstacle Removal"</div></div>
+        <div class="info-row"><div class="info-label">Time</div><div class="info-val green">O(V + E) — better than Dijkstra's O((V+E)logV)</div></div>
+        <div class="lc-list">
+          <span class="lc-badge lc-hard">2290 Min Obstacle Removal</span>
+          <span class="lc-badge lc-med">1368 Min Cost Reach Destination</span>
+        </div>
+      </div>
+      <div>
+        <pre class="code-block"><span class="c"># 0-1 BFS with Deque</span>
+<span class="k">def</span> <span class="fn">zero_one_bfs</span>(<span class="var">grid</span>, <span class="var">src</span>, <span class="var">dst</span>):
+    <span class="var">dist</span> = {<span class="var">src</span>: <span class="n">0</span>}
+    <span class="var">dq</span> = <span class="fn">deque</span>([(<span class="n">0</span>, <span class="var">src</span>)])
+    
+    <span class="k">while</span> <span class="var">dq</span>:
+        <span class="var">d</span>, <span class="var">u</span> = <span class="var">dq</span>.<span class="fn">popleft</span>()
+        <span class="k">if</span> <span class="var">d</span> > <span class="var">dist</span>.<span class="fn">get</span>(<span class="var">u</span>, <span class="fn">float</span>(<span class="s">'inf'</span>)):
+            <span class="k">continue</span>
+        
+        <span class="k">for</span> <span class="var">v</span>, <span class="var">w</span> <span class="k">in</span> <span class="fn">neighbors</span>(<span class="var">u</span>, <span class="var">grid</span>):
+            <span class="var">nd</span> = <span class="var">d</span> + <span class="var">w</span>
+            <span class="k">if</span> <span class="var">nd</span> < <span class="var">dist</span>.<span class="fn">get</span>(<span class="var">v</span>, <span class="fn">float</span>(<span class="s">'inf'</span>)):
+                <span class="var">dist</span>[<span class="var">v</span>] = <span class="var">nd</span>
+                <span class="k">if</span> <span class="var">w</span> == <span class="n">0</span>:
+                    <span class="var">dq</span>.<span class="fn">appendleft</span>((<span class="var">nd</span>,<span class="var">v</span>))  <span class="c"># front</span>
+                <span class="k">else</span>:
+                    <span class="var">dq</span>.<span class="fn">append</span>((<span class="var">nd</span>,<span class="var">v</span>))      <span class="c"># back</span>
+    
+    <span class="k">return</span> <span class="var">dist</span>.<span class="fn">get</span>(<span class="var">dst</span>, -<span class="n">1</span>)</pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 3: RECOGNITION SHEET ── -->
+<section id="recognition">
+  <div class="section-header">
+    <div class="section-num">3</div>
+    <h2>Pattern Recognition Sheet — 100+ Rules</h2>
+  </div>
+
+  <div class="highlight">🧠 The fastest way to crack graph interviews: recognize the pattern in the first 60 seconds.</div>
+
+  <div style="margin-top:20px;">
+    <h3 style="margin-bottom:12px;">Shortest Path Rules</h3>
+    <div class="rule-grid">
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Shortest path, unweighted graph</span><span class="rule-arrow">→</span><span class="rule-algo">BFS</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Shortest path, positive weights only</span><span class="rule-arrow">→</span><span class="rule-algo">Dijkstra</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Shortest path, negative weights possible</span><span class="rule-arrow">→</span><span class="rule-algo">Bellman-Ford</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">All-pairs shortest path, small V</span><span class="rule-arrow">→</span><span class="rule-algo">Floyd-Warshall O(V³)</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Shortest path in grid, no weights</span><span class="rule-arrow">→</span><span class="rule-algo">BFS on grid</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Shortest path, weights 0 or 1 only</span><span class="rule-arrow">→</span><span class="rule-algo">0-1 BFS (deque)</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Shortest path with at most K hops/stops</span><span class="rule-arrow">→</span><span class="rule-algo">Bellman-Ford (K iterations)</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Shortest path that minimizes max edge weight</span><span class="rule-arrow">→</span><span class="rule-algo">Binary Search + BFS</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Shortest path in DAG</span><span class="rule-arrow">→</span><span class="rule-algo">Topo Sort + DP Relaxation</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Maximum probability path</span><span class="rule-arrow">→</span><span class="rule-algo">Dijkstra (multiply instead of add)</span></div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3 style="margin-bottom:12px;">Cycle Detection Rules</h3>
+    <div class="rule-grid">
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Detect cycle, undirected graph</span><span class="rule-arrow">→</span><span class="rule-algo">DFS (track parent) or DSU</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Detect cycle, directed graph</span><span class="rule-arrow">→</span><span class="rule-algo">DFS + recursion stack (3-color)</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Detect cycle AND want ordering</span><span class="rule-arrow">→</span><span class="rule-algo">Kahn's (Topo BFS)</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Redundant edge in undirected graph</span><span class="rule-arrow">→</span><span class="rule-algo">DSU (find adds cycle?)</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Graph Valid Tree check</span><span class="rule-arrow">→</span><span class="rule-algo">DSU + edge count = V-1</span></div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3 style="margin-bottom:12px;">Topological Sort Rules</h3>
+    <div class="rule-grid">
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Course schedule (can finish all courses?)</span><span class="rule-arrow">→</span><span class="rule-algo">Kahn's / Topo DFS cycle check</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Task ordering with prerequisites</span><span class="rule-arrow">→</span><span class="rule-algo">Kahn's BFS Topo Sort</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Alien dictionary / character ordering</span><span class="rule-arrow">→</span><span class="rule-algo">Build graph from comparisons + Topo</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Build system / dependency resolution</span><span class="rule-arrow">→</span><span class="rule-algo">Topological Sort</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Sequence reconstruction uniqueness</span><span class="rule-arrow">→</span><span class="rule-algo">Topo sort — queue never > 1 node</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Longest path in DAG</span><span class="rule-arrow">→</span><span class="rule-algo">Topo Sort + DP</span></div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3 style="margin-bottom:12px;">Connected Components & MST Rules</h3>
+    <div class="rule-grid">
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Count connected components</span><span class="rule-arrow">→</span><span class="rule-algo">BFS/DFS iterate or DSU</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Merge accounts / group emails</span><span class="rule-arrow">→</span><span class="rule-algo">DSU</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Min cost to connect all nodes</span><span class="rule-arrow">→</span><span class="rule-algo">Kruskal or Prim MST</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">All nodes reachable? (connectivity)</span><span class="rule-arrow">→</span><span class="rule-algo">BFS/DFS from any node, check visited = n</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Dynamic connectivity with merges</span><span class="rule-arrow">→</span><span class="rule-algo">DSU</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Remove edges to disconnect graph</span><span class="rule-arrow">→</span><span class="rule-algo">Find bridges (Tarjan)</span></div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3 style="margin-bottom:12px;">Grid Graph Rules</h3>
+    <div class="rule-grid">
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Number of islands (count groups)</span><span class="rule-arrow">→</span><span class="rule-algo">DFS/BFS flood fill</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Shortest path in grid (unweighted)</span><span class="rule-arrow">→</span><span class="rule-algo">BFS from source</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Reach boundary cells (Pacific Atlantic)</span><span class="rule-arrow">→</span><span class="rule-algo">Multi-source BFS from each boundary</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Min threshold to traverse grid</span><span class="rule-arrow">→</span><span class="rule-algo">Binary Search + BFS/DFS</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Water flow / spread simulation</span><span class="rule-arrow">→</span><span class="rule-algo">Multi-source BFS</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Min effort path in weighted grid</span><span class="rule-arrow">→</span><span class="rule-algo">Dijkstra on grid</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Flip surrounded regions</span><span class="rule-arrow">→</span><span class="rule-algo">BFS from boundary 'O's</span></div>
+    </div>
+  </div>
+
+  <div style="margin-top:20px;">
+    <h3 style="margin-bottom:12px;">State Space / Advanced Rules</h3>
+    <div class="rule-grid">
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Word Ladder (transform one word to another)</span><span class="rule-arrow">→</span><span class="rule-algo">BFS on state space</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">State = (position + constraints)</span><span class="rule-arrow">→</span><span class="rule-algo">BFS/Dijkstra on (node, state) tuples</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Multiple items to collect (bitmask)</span><span class="rule-arrow">→</span><span class="rule-algo">BFS + bitmask DP state</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Can take shortcut/teleport edges</span><span class="rule-arrow">→</span><span class="rule-algo">Dijkstra with modified edge weights</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Itinerary reconstruction (Euler path)</span><span class="rule-arrow">→</span><span class="rule-algo">Hierholzer's algorithm</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Evaluate ratios (a/b=c, find x/y)</span><span class="rule-arrow">→</span><span class="rule-algo">Build weighted graph + BFS/DFS</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Network max flow / min cut</span><span class="rule-arrow">→</span><span class="rule-algo">Dinic's / Edmonds-Karp</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Is graph bipartite / 2-colorable?</span><span class="rule-arrow">→</span><span class="rule-algo">BFS 2-coloring (odd cycle check)</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Strongly connected components</span><span class="rule-arrow">→</span><span class="rule-algo">Kosaraju's or Tarjan's SCC</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">A* heuristic search (game/pathfinding)</span><span class="rule-arrow">→</span><span class="rule-algo">A* (Dijkstra + admissible heuristic)</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Tree diameter</span><span class="rule-arrow">→</span><span class="rule-algo">2 BFS from farthest nodes</span></div>
+      <div class="rule-card"><span class="rule-if">IF</span><span class="rule-condition">Clone graph</span><span class="rule-arrow">→</span><span class="rule-algo">BFS/DFS + HashMap (old→new)</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 4: CHEATSHEET ── -->
+<section id="cheatsheet">
+  <div class="section-header">
+    <div class="section-num">4</div>
+    <h2>Algorithm Complexity Cheatsheet</h2>
+  </div>
+
+  <div style="overflow-x:auto;margin-bottom:24px;">
+    <table class="complexity-table">
+      <thead>
+        <tr>
+          <th>Algorithm</th>
+          <th>Time</th>
+          <th>Space</th>
+          <th>Use Case</th>
+          <th>Handles Negative?</th>
+          <th>Directed?</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>BFS</strong></td><td class="tc-good">O(V+E)</td><td class="tc-good">O(V)</td><td>Shortest path (unweighted), level order</td><td style="color:var(--red)">No</td><td>Both</td></tr>
+        <tr><td><strong>DFS</strong></td><td class="tc-good">O(V+E)</td><td class="tc-good">O(V)</td><td>Connectivity, cycle detect, topo sort</td><td>N/A</td><td>Both</td></tr>
+        <tr><td><strong>Dijkstra</strong></td><td class="tc-ok">O((V+E) log V)</td><td class="tc-ok">O(V+E)</td><td>SSSP with positive weights</td><td style="color:var(--red)">No</td><td>Both</td></tr>
+        <tr><td><strong>Bellman-Ford</strong></td><td class="tc-bad">O(VE)</td><td class="tc-good">O(V)</td><td>SSSP negative weights, K-hops</td><td style="color:var(--green)">Yes</td><td>Both</td></tr>
+        <tr><td><strong>Floyd-Warshall</strong></td><td class="tc-bad">O(V³)</td><td class="tc-ok">O(V²)</td><td>All-pairs shortest path</td><td style="color:var(--green)">Yes</td><td>Both</td></tr>
+        <tr><td><strong>Kruskal</strong></td><td class="tc-ok">O(E log E)</td><td class="tc-good">O(V)</td><td>MST, sparse graphs</td><td>N/A</td><td>Undirected</td></tr>
+        <tr><td><strong>Prim</strong></td><td class="tc-ok">O(E log V)</td><td class="tc-ok">O(V+E)</td><td>MST, dense graphs</td><td>N/A</td><td>Undirected</td></tr>
+        <tr><td><strong>DSU</strong></td><td class="tc-good">O(α(n)) ≈ O(1)</td><td class="tc-good">O(V)</td><td>Union-Find, components, cycle (undirected)</td><td>N/A</td><td>Undirected</td></tr>
+        <tr><td><strong>Kahn's (Topo)</strong></td><td class="tc-good">O(V+E)</td><td class="tc-good">O(V)</td><td>Topological sort, cycle detection (directed)</td><td>N/A</td><td>Directed</td></tr>
+        <tr><td><strong>Tarjan SCC</strong></td><td class="tc-good">O(V+E)</td><td class="tc-good">O(V)</td><td>Strongly connected components</td><td>N/A</td><td>Directed</td></tr>
+        <tr><td><strong>Tarjan Bridges</strong></td><td class="tc-good">O(V+E)</td><td class="tc-good">O(V)</td><td>Critical connections / bridges</td><td>N/A</td><td>Undirected</td></tr>
+        <tr><td><strong>0-1 BFS</strong></td><td class="tc-good">O(V+E)</td><td class="tc-good">O(V)</td><td>0/1 weight edges</td><td>No</td><td>Both</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cheatsheet-grid">
+    <div class="cheatsheet-card">
+      <h4>Common Mistakes to Avoid</h4>
+      <div style="font-size:12px;color:var(--text2);">
+        <div style="margin-bottom:8px;padding:6px;background:rgba(255,77,77,0.07);border-radius:4px;border-left:2px solid var(--red);">❌ Not handling disconnected graphs (run BFS/DFS for ALL nodes)</div>
+        <div style="margin-bottom:8px;padding:6px;background:rgba(255,77,77,0.07);border-radius:4px;border-left:2px solid var(--red);">❌ Using Dijkstra with negative weights</div>
+        <div style="margin-bottom:8px;padding:6px;background:rgba(255,77,77,0.07);border-radius:4px;border-left:2px solid var(--red);">❌ Forgetting to mark visited before enqueuing (BFS)</div>
+        <div style="margin-bottom:8px;padding:6px;background:rgba(255,77,77,0.07);border-radius:4px;border-left:2px solid var(--red);">❌ DSU: forget path compression causes TLE</div>
+        <div style="margin-bottom:8px;padding:6px;background:rgba(255,77,77,0.07);border-radius:4px;border-left:2px solid var(--red);">❌ Undirected cycle: using visited instead of parent</div>
+        <div style="padding:6px;background:rgba(255,77,77,0.07);border-radius:4px;border-left:2px solid var(--red);">❌ Kahn's: not counting processed nodes for cycle check</div>
+      </div>
+    </div>
+    <div class="cheatsheet-card">
+      <h4>Graph Type → Algorithm Selection</h4>
+      <div class="cheatsheet-row"><span class="cs-key">Unweighted + shortest</span><span class="cs-val">BFS</span></div>
+      <div class="cheatsheet-row"><span class="cs-key">Weighted + positive</span><span class="cs-val">Dijkstra</span></div>
+      <div class="cheatsheet-row"><span class="cs-key">Negative weights</span><span class="cs-val">Bellman-Ford</span></div>
+      <div class="cheatsheet-row"><span class="cs-key">All pairs (V ≤ 200)</span><span class="cs-val">Floyd-Warshall</span></div>
+      <div class="cheatsheet-row"><span class="cs-key">Connect all / MST</span><span class="cs-val">Kruskal / Prim</span></div>
+      <div class="cheatsheet-row"><span class="cs-key">Group membership</span><span class="cs-val">DSU</span></div>
+      <div class="cheatsheet-row"><span class="cs-key">Task ordering</span><span class="cs-val">Topo Sort</span></div>
+      <div class="cheatsheet-row"><span class="cs-key">Critical edges</span><span class="cs-val">Tarjan Bridges</span></div>
+    </div>
+    <div class="cheatsheet-card">
+      <h4>Grid Traversal Directions</h4>
+      <pre style="font-size:11px;color:var(--text2);"><span class="c"># 4-directional (up,down,left,right)</span>
+<span class="var">dirs</span> = [(-<span class="n">1</span>,<span class="n">0</span>),(+<span class="n">1</span>,<span class="n">0</span>),(<span class="n">0</span>,-<span class="n">1</span>),(<span class="n">0</span>,+<span class="n">1</span>)]
+
+<span class="c"># 8-directional (+ diagonals)</span>
+<span class="var">dirs</span> = [(-<span class="n">1</span>,-<span class="n">1</span>),(-<span class="n">1</span>,<span class="n">0</span>),(-<span class="n">1</span>,+<span class="n">1</span>),
+        (<span class="n">0</span>,-<span class="n">1</span>),       (<span class="n">0</span>,+<span class="n">1</span>),
+        (+<span class="n">1</span>,-<span class="n">1</span>),(+<span class="n">1</span>,<span class="n">0</span>),(+<span class="n">1</span>,+<span class="n">1</span>)]
+
+<span class="c"># Bounds check</span>
+<span class="k">def</span> <span class="fn">valid</span>(<span class="var">r</span>,<span class="var">c</span>,<span class="var">rows</span>,<span class="var">cols</span>):
+    <span class="k">return</span> <span class="n">0</span> <= <span class="var">r</span> < <span class="var">rows</span> <span class="k">and</span> <span class="n">0</span> <= <span class="var">c</span> < <span class="var">cols</span></pre>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 5: TEMPLATES ── -->
+<section id="templates">
+  <div class="section-header">
+    <div class="section-num">5</div>
+    <h2>Production-Ready Templates</h2>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(this,'tmpl-python')">Python</button>
+    <button class="tab" onclick="switchTab(this,'tmpl-java')">Java</button>
+    <button class="tab" onclick="switchTab(this,'tmpl-cpp')">C++</button>
+  </div>
+
+  <div id="tmpl-python" class="tab-content active">
+    <div class="card-grid">
+      <div class="card">
+        <h3>Complete Graph Template (Python)</h3>
+        <pre class="code-block"><span class="k">from</span> <span class="t">collections</span> <span class="k">import</span> <span class="fn">deque</span>, <span class="fn">defaultdict</span>
+<span class="k">import</span> <span class="t">heapq</span>
+
+<span class="c"># ── BFS shortest path ──────────────</span>
+<span class="k">def</span> <span class="fn">bfs</span>(<span class="var">graph</span>, <span class="var">start</span>, <span class="var">end</span>):
+    <span class="var">q</span>, <span class="var">visited</span> = <span class="fn">deque</span>([(start, <span class="n">0</span>)]), {start}
+    <span class="k">while</span> <span class="var">q</span>:
+        <span class="var">u</span>, <span class="var">d</span> = <span class="var">q</span>.<span class="fn">popleft</span>()
+        <span class="k">if</span> <span class="var">u</span> == <span class="var">end</span>: <span class="k">return</span> <span class="var">d</span>
+        <span class="k">for</span> <span class="var">v</span> <span class="k">in</span> <span class="var">graph</span>[<span class="var">u</span>]:
+            <span class="k">if</span> <span class="var">v</span> <span class="k">not in</span> <span class="var">visited</span>:
+                <span class="var">visited</span>.<span class="fn">add</span>(<span class="var">v</span>); <span class="var">q</span>.<span class="fn">append</span>((<span class="var">v</span>, <span class="var">d</span>+<span class="n">1</span>))
+    <span class="k">return</span> -<span class="n">1</span>
+
+<span class="c"># ── Dijkstra ───────────────────────</span>
+<span class="k">def</span> <span class="fn">dijkstra</span>(<span class="var">graph</span>, <span class="var">src</span>, <span class="var">n</span>):
+    <span class="var">dist</span> = [<span class="fn">float</span>(<span class="s">'inf'</span>)] * <span class="var">n</span>; <span class="var">dist</span>[<span class="var">src</span>] = <span class="n">0</span>
+    <span class="var">heap</span> = [(<span class="n">0</span>, <span class="var">src</span>)]
+    <span class="k">while</span> <span class="var">heap</span>:
+        <span class="var">d</span>, <span class="var">u</span> = <span class="t">heapq</span>.<span class="fn">heappop</span>(<span class="var">heap</span>)
+        <span class="k">if</span> <span class="var">d</span> > <span class="var">dist</span>[<span class="var">u</span>]: <span class="k">continue</span>
+        <span class="k">for</span> <span class="var">v</span>, <span class="var">w</span> <span class="k">in</span> <span class="var">graph</span>[<span class="var">u</span>]:
+            <span class="k">if</span> <span class="var">dist</span>[<span class="var">u</span>]+<span class="var">w</span> < <span class="var">dist</span>[<span class="var">v</span>]:
+                <span class="var">dist</span>[<span class="var">v</span>] = <span class="var">dist</span>[<span class="var">u</span>]+<span class="var">w</span>
+                <span class="t">heapq</span>.<span class="fn">heappush</span>(<span class="var">heap</span>, (<span class="var">dist</span>[<span class="var">v</span>], <span class="var">v</span>))
+    <span class="k">return</span> <span class="var">dist</span>
+
+<span class="c"># ── DSU ────────────────────────────</span>
+<span class="k">class</span> <span class="t">DSU</span>:
+    <span class="k">def</span> <span class="fn">__init__</span>(<span class="var">self</span>, <span class="var">n</span>):
+        <span class="var">self</span>.<span class="var">p</span> = <span class="fn">list</span>(<span class="fn">range</span>(<span class="var">n</span>)); <span class="var">self</span>.<span class="var">r</span> = [<span class="n">0</span>]*<span class="var">n</span>
+    <span class="k">def</span> <span class="fn">find</span>(<span class="var">self</span>, <span class="var">x</span>):
+        <span class="k">if</span> <span class="var">self</span>.<span class="var">p</span>[<span class="var">x</span>]!=<span class="var">x</span>: <span class="var">self</span>.<span class="var">p</span>[<span class="var">x</span>]=<span class="var">self</span>.<span class="fn">find</span>(<span class="var">self</span>.<span class="var">p</span>[<span class="var">x</span>])
+        <span class="k">return</span> <span class="var">self</span>.<span class="var">p</span>[<span class="var">x</span>]
+    <span class="k">def</span> <span class="fn">union</span>(<span class="var">self</span>, <span class="var">x</span>, <span class="var">y</span>):
+        <span class="var">a</span>,<span class="var">b</span>=<span class="var">self</span>.<span class="fn">find</span>(<span class="var">x</span>),<span class="var">self</span>.<span class="fn">find</span>(<span class="var">y</span>)
+        <span class="k">if</span> <span class="var">a</span>==<span class="var">b</span>: <span class="k">return</span> <span class="k">False</span>
+        <span class="k">if</span> <span class="var">self</span>.<span class="var">r</span>[<span class="var">a</span>]&lt;<span class="var">self</span>.<span class="var">r</span>[<span class="var">b</span>]: <span class="var">a</span>,<span class="var">b</span>=<span class="var">b</span>,<span class="var">a</span>
+        <span class="var">self</span>.<span class="var">p</span>[<span class="var">b</span>]=<span class="var">a</span>
+        <span class="k">if</span> <span class="var">self</span>.<span class="var">r</span>[<span class="var">a</span>]==<span class="var">self</span>.<span class="var">r</span>[<span class="var">b</span>]: <span class="var">self</span>.<span class="var">r</span>[<span class="var">a</span>]+=<span class="n">1</span>
+        <span class="k">return</span> <span class="k">True</span>
+
+<span class="c"># ── Topological Sort (Kahn's) ──────</span>
+<span class="k">def</span> <span class="fn">topo</span>(<span class="var">n</span>, <span class="var">edges</span>):
+    <span class="var">g</span>=<span class="fn">defaultdict</span>(<span class="fn">list</span>); <span class="var">ind</span>=[<span class="n">0</span>]*<span class="var">n</span>
+    <span class="k">for</span> <span class="var">u</span>,<span class="var">v</span> <span class="k">in</span> <span class="var">edges</span>: <span class="var">g</span>[<span class="var">u</span>].<span class="fn">append</span>(<span class="var">v</span>); <span class="var">ind</span>[<span class="var">v</span>]+=<span class="n">1</span>
+    <span class="var">q</span>=<span class="fn">deque</span>(<span class="var">i</span> <span class="k">for</span> <span class="var">i</span> <span class="k">in</span> <span class="fn">range</span>(<span class="var">n</span>) <span class="k">if</span> <span class="var">ind</span>[<span class="var">i</span>]==<span class="n">0</span>)
+    <span class="var">res</span>=[]
+    <span class="k">while</span> <span class="var">q</span>:
+        <span class="var">u</span>=<span class="var">q</span>.<span class="fn">popleft</span>(); <span class="var">res</span>.<span class="fn">append</span>(<span class="var">u</span>)
+        <span class="k">for</span> <span class="var">v</span> <span class="k">in</span> <span class="var">g</span>[<span class="var">u</span>]:
+            <span class="var">ind</span>[<span class="var">v</span>]-=<span class="n">1</span>
+            <span class="k">if</span> <span class="var">ind</span>[<span class="var">v</span>]==<span class="n">0</span>: <span class="var">q</span>.<span class="fn">append</span>(<span class="var">v</span>)
+    <span class="k">return</span> <span class="var">res</span> <span class="k">if</span> <span class="fn">len</span>(<span class="var">res</span>)==<span class="var">n</span> <span class="k">else</span> []</pre>
+      </div>
+    </div>
+  </div>
+
+  <div id="tmpl-java" class="tab-content">
+    <div class="card">
+      <h3>Complete Graph Template (Java)</h3>
+      <pre class="code-block"><span class="k">import</span> <span class="t">java.util.*</span>;
+
+<span class="c">// BFS</span>
+<span class="k">public</span> <span class="k">int</span> <span class="fn">bfs</span>(<span class="k">int</span>[][] <span class="var">graph</span>, <span class="k">int</span> <span class="var">src</span>, <span class="k">int</span> <span class="var">dst</span>) {
+    <span class="t">Queue</span>&lt;<span class="t">int[]</span>&gt; <span class="var">q</span> = <span class="k">new</span> <span class="fn">LinkedList</span>();
+    <span class="k">boolean</span>[] <span class="var">vis</span> = <span class="k">new</span> <span class="k">boolean</span>[<span class="var">graph</span>.length];
+    <span class="var">q</span>.<span class="fn">offer</span>(<span class="k">new</span> <span class="k">int</span>[]{<span class="var">src</span>, <span class="n">0</span>});
+    <span class="var">vis</span>[<span class="var">src</span>] = <span class="k">true</span>;
+    <span class="k">while</span> (!<span class="var">q</span>.<span class="fn">isEmpty</span>()) {
+        <span class="k">int</span>[] <span class="var">cur</span> = <span class="var">q</span>.<span class="fn">poll</span>();
+        <span class="k">if</span> (<span class="var">cur</span>[<span class="n">0</span>] == <span class="var">dst</span>) <span class="k">return</span> <span class="var">cur</span>[<span class="n">1</span>];
+        <span class="k">for</span> (<span class="k">int</span> <span class="var">v</span> : <span class="var">graph</span>[<span class="var">cur</span>[<span class="n">0</span>]])
+            <span class="k">if</span> (!<span class="var">vis</span>[<span class="var">v</span>]) { <span class="var">vis</span>[<span class="var">v</span>]=<span class="k">true</span>; <span class="var">q</span>.<span class="fn">offer</span>(<span class="k">new</span> <span class="k">int</span>[]{<span class="var">v</span>,<span class="var">cur</span>[<span class="n">1</span>]+<span class="n">1</span>}); }
+    }
+    <span class="k">return</span> -<span class="n">1</span>;
+}
+
+<span class="c">// Dijkstra</span>
+<span class="k">public</span> <span class="k">int</span>[] <span class="fn">dijkstra</span>(<span class="t">List</span>&lt;<span class="k">int</span>[]&gt;[] <span class="var">graph</span>, <span class="k">int</span> <span class="var">src</span>) {
+    <span class="k">int</span> <span class="var">n</span> = <span class="var">graph</span>.length;
+    <span class="k">int</span>[] <span class="var">dist</span> = <span class="k">new</span> <span class="k">int</span>[<span class="var">n</span>];
+    <span class="t">Arrays</span>.<span class="fn">fill</span>(<span class="var">dist</span>, <span class="t">Integer</span>.MAX_VALUE);
+    <span class="var">dist</span>[<span class="var">src</span>] = <span class="n">0</span>;
+    <span class="t">PriorityQueue</span>&lt;<span class="k">int</span>[]&gt; <span class="var">pq</span> = <span class="k">new</span> <span class="t">PriorityQueue</span>&lt;&gt;(
+        (<span class="var">a</span>,<span class="var">b</span>) -&gt; <span class="var">a</span>[<span class="n">0</span>]-<span class="var">b</span>[<span class="n">0</span>]);
+    <span class="var">pq</span>.<span class="fn">offer</span>(<span class="k">new</span> <span class="k">int</span>[]{<span class="n">0</span>, <span class="var">src</span>});
+    <span class="k">while</span> (!<span class="var">pq</span>.<span class="fn">isEmpty</span>()) {
+        <span class="k">int</span>[] <span class="var">cur</span> = <span class="var">pq</span>.<span class="fn">poll</span>();
+        <span class="k">if</span> (<span class="var">cur</span>[<span class="n">0</span>] > <span class="var">dist</span>[<span class="var">cur</span>[<span class="n">1</span>]]) <span class="k">continue</span>;
+        <span class="k">for</span> (<span class="k">int</span>[] <span class="var">e</span> : <span class="var">graph</span>[<span class="var">cur</span>[<span class="n">1</span>]]) {
+            <span class="k">int</span> <span class="var">nd</span> = <span class="var">cur</span>[<span class="n">0</span>] + <span class="var">e</span>[<span class="n">1</span>];
+            <span class="k">if</span> (<span class="var">nd</span> < <span class="var">dist</span>[<span class="var">e</span>[<span class="n">0</span>]]) {
+                <span class="var">dist</span>[<span class="var">e</span>[<span class="n">0</span>]] = <span class="var">nd</span>;
+                <span class="var">pq</span>.<span class="fn">offer</span>(<span class="k">new</span> <span class="k">int</span>[]{<span class="var">nd</span>, <span class="var">e</span>[<span class="n">0</span>]});
+            }
+        }
+    }
+    <span class="k">return</span> <span class="var">dist</span>;
+}
+
+<span class="c">// DSU</span>
+<span class="k">class</span> <span class="t">DSU</span> {
+    <span class="k">int</span>[] <span class="var">p</span>, <span class="var">r</span>;
+    <span class="t">DSU</span>(<span class="k">int</span> <span class="var">n</span>) { <span class="var">p</span>=<span class="k">new</span> <span class="k">int</span>[<span class="var">n</span>]; <span class="var">r</span>=<span class="k">new</span> <span class="k">int</span>[<span class="var">n</span>];
+        <span class="k">for</span> (<span class="k">int</span> <span class="var">i</span>=<span class="n">0</span>;<span class="var">i</span>&lt;<span class="var">n</span>;<span class="var">i</span>++) <span class="var">p</span>[<span class="var">i</span>]=<span class="var">i</span>; }
+    <span class="k">int</span> <span class="fn">find</span>(<span class="k">int</span> <span class="var">x</span>) { <span class="k">return</span> <span class="var">p</span>[<span class="var">x</span>]==<span class="var">x</span>?<span class="var">x</span>:(<span class="var">p</span>[<span class="var">x</span>]=<span class="fn">find</span>(<span class="var">p</span>[<span class="var">x</span>])); }
+    <span class="k">boolean</span> <span class="fn">union</span>(<span class="k">int</span> <span class="var">x</span>, <span class="k">int</span> <span class="var">y</span>) {
+        <span class="k">int</span> <span class="var">a</span>=<span class="fn">find</span>(<span class="var">x</span>),<span class="var">b</span>=<span class="fn">find</span>(<span class="var">y</span>); <span class="k">if</span>(<span class="var">a</span>==<span class="var">b</span>) <span class="k">return</span> <span class="k">false</span>;
+        <span class="k">if</span>(<span class="var">r</span>[<span class="var">a</span>]&lt;<span class="var">r</span>[<span class="var">b</span>]){<span class="k">int</span> <span class="var">t</span>=<span class="var">a</span>;<span class="var">a</span>=<span class="var">b</span>;<span class="var">b</span>=<span class="var">t</span>;}
+        <span class="var">p</span>[<span class="var">b</span>]=<span class="var">a</span>; <span class="k">if</span>(<span class="var">r</span>[<span class="var">a</span>]==<span class="var">r</span>[<span class="var">b</span>]) <span class="var">r</span>[<span class="var">a</span>]++; <span class="k">return</span> <span class="k">true</span>;
+    }
+}</pre>
+    </div>
+  </div>
+
+  <div id="tmpl-cpp" class="tab-content">
+    <div class="card">
+      <h3>Complete Graph Template (C++)</h3>
+      <pre class="code-block"><span class="k">#include</span> <span class="s">&lt;bits/stdc++.h&gt;</span>
+<span class="k">using namespace</span> <span class="t">std</span>;
+
+<span class="c">// BFS</span>
+<span class="k">int</span> <span class="fn">bfs</span>(<span class="k">vector</span>&lt;<span class="k">vector</span>&lt;<span class="k">int</span>&gt;&gt;& <span class="var">g</span>, <span class="k">int</span> <span class="var">src</span>, <span class="k">int</span> <span class="var">dst</span>) {
+    <span class="k">vector</span>&lt;<span class="k">bool</span>&gt; <span class="var">vis</span>(<span class="var">g</span>.size());
+    <span class="k">queue</span>&lt;<span class="k">pair</span>&lt;<span class="k">int</span>,<span class="k">int</span>&gt;&gt; <span class="var">q</span>;
+    <span class="var">q</span>.<span class="fn">push</span>({<span class="var">src</span>,<span class="n">0</span>}); <span class="var">vis</span>[<span class="var">src</span>]=<span class="k">true</span>;
+    <span class="k">while</span>(!<span class="var">q</span>.<span class="fn">empty</span>()) {
+        <span class="k">auto</span> [<span class="var">u</span>,<span class="var">d</span>] = <span class="var">q</span>.<span class="fn">front</span>(); <span class="var">q</span>.<span class="fn">pop</span>();
+        <span class="k">if</span>(<span class="var">u</span>==<span class="var">dst</span>) <span class="k">return</span> <span class="var">d</span>;
+        <span class="k">for</span>(<span class="k">int</span> <span class="var">v</span>:<span class="var">g</span>[<span class="var">u</span>]) <span class="k">if</span>(!<span class="var">vis</span>[<span class="var">v</span>]){<span class="var">vis</span>[<span class="var">v</span>]=<span class="n">1</span>;<span class="var">q</span>.<span class="fn">push</span>({<span class="var">v</span>,<span class="var">d</span>+<span class="n">1</span>});}
+    }
+    <span class="k">return</span> -<span class="n">1</span>;
+}
+
+<span class="c">// Dijkstra</span>
+<span class="k">vector</span>&lt;<span class="k">int</span>&gt; <span class="fn">dijkstra</span>(
+    <span class="k">vector</span>&lt;<span class="k">vector</span>&lt;<span class="k">pair</span>&lt;<span class="k">int</span>,<span class="k">int</span>&gt;&gt;&gt;& <span class="var">g</span>, <span class="k">int</span> <span class="var">src</span>) {
+    <span class="k">int</span> <span class="var">n</span>=<span class="var">g</span>.size();
+    <span class="k">vector</span>&lt;<span class="k">int</span>&gt; <span class="var">dist</span>(<span class="var">n</span>, <span class="t">INT_MAX</span>); <span class="var">dist</span>[<span class="var">src</span>]=<span class="n">0</span>;
+    <span class="k">priority_queue</span>&lt;<span class="k">pair</span>&lt;<span class="k">int</span>,<span class="k">int</span>&gt;,<span class="k">vector</span>&lt;<span class="k">pair</span>&lt;<span class="k">int</span>,<span class="k">int</span>&gt;&gt;,
+        <span class="k">greater</span>&lt;&gt;&gt; <span class="var">pq</span>;
+    <span class="var">pq</span>.<span class="fn">push</span>({<span class="n">0</span>,<span class="var">src</span>});
+    <span class="k">while</span>(!<span class="var">pq</span>.<span class="fn">empty</span>()){
+        <span class="k">auto</span> [<span class="var">d</span>,<span class="var">u</span>]=<span class="var">pq</span>.<span class="fn">top</span>(); <span class="var">pq</span>.<span class="fn">pop</span>();
+        <span class="k">if</span>(<span class="var">d</span>&gt;<span class="var">dist</span>[<span class="var">u</span>]) <span class="k">continue</span>;
+        <span class="k">for</span>(<span class="k">auto</span> [<span class="var">v</span>,<span class="var">w</span>]:<span class="var">g</span>[<span class="var">u</span>])
+            <span class="k">if</span>(<span class="var">dist</span>[<span class="var">u</span>]+<span class="var">w</span>&lt;<span class="var">dist</span>[<span class="var">v</span>])
+                {<span class="var">dist</span>[<span class="var">v</span>]=<span class="var">dist</span>[<span class="var">u</span>]+<span class="var">w</span>;<span class="var">pq</span>.<span class="fn">push</span>({<span class="var">dist</span>[<span class="var">v</span>],<span class="var">v</span>});}
+    }
+    <span class="k">return</span> <span class="var">dist</span>;
+}
+
+<span class="c">// DSU with path compression + rank</span>
+<span class="k">struct</span> <span class="t">DSU</span> {
+    <span class="k">vector</span>&lt;<span class="k">int</span>&gt; <span class="var">p</span>, <span class="var">r</span>;
+    <span class="t">DSU</span>(<span class="k">int</span> <span class="var">n</span>): <span class="fn">p</span>(<span class="var">n</span>), <span class="fn">r</span>(<span class="var">n</span>,<span class="n">0</span>) {
+        <span class="t">iota</span>(<span class="var">p</span>.<span class="fn">begin</span>(),<span class="var">p</span>.<span class="fn">end</span>(),<span class="n">0</span>); }
+    <span class="k">int</span> <span class="fn">find</span>(<span class="k">int</span> <span class="var">x</span>){ <span class="k">return</span> <span class="var">p</span>[<span class="var">x</span>]==<span class="var">x</span>?<span class="var">x</span>:<span class="var">p</span>[<span class="var">x</span>]=<span class="fn">find</span>(<span class="var">p</span>[<span class="var">x</span>]); }
+    <span class="k">bool</span> <span class="fn">unite</span>(<span class="k">int</span> <span class="var">x</span>, <span class="k">int</span> <span class="var">y</span>){
+        <span class="k">int</span> <span class="var">a</span>=<span class="fn">find</span>(<span class="var">x</span>),<span class="var">b</span>=<span class="fn">find</span>(<span class="var">y</span>); <span class="k">if</span>(<span class="var">a</span>==<span class="var">b</span>) <span class="k">return</span> <span class="k">false</span>;
+        <span class="k">if</span>(<span class="var">r</span>[<span class="var">a</span>]&lt;<span class="var">r</span>[<span class="var">b</span>]) <span class="fn">swap</span>(<span class="var">a</span>,<span class="var">b</span>);
+        <span class="var">p</span>[<span class="var">b</span>]=<span class="var">a</span>; <span class="k">if</span>(<span class="var">r</span>[<span class="var">a</span>]==<span class="var">r</span>[<span class="var">b</span>]) <span class="var">r</span>[<span class="var">a</span>]++; <span class="k">return</span> <span class="k">true</span>;
+    }
+};</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 6: QUESTIONS ── -->
+<section id="questions">
+  <div class="section-header">
+    <div class="section-num">6</div>
+    <h2>Top LeetCode Questions — Tiered by Priority</h2>
+  </div>
+
+  <div style="margin-bottom:20px;">
+    <h3 style="color:var(--green);">📊 Coverage Map: Minimum Viable Sets</h3>
+    <div class="coverage-bars" style="margin:16px 0 24px;">
+      <div class="cov-row"><span class="cov-label">Top 20 → Cover 60%</span><div class="cov-bar"><div class="cov-fill" style="width:60%"></div></div><span class="cov-pct">60%</span></div>
+      <div class="cov-row"><span class="cov-label">Top 50 → Cover 80%</span><div class="cov-bar"><div class="cov-fill" style="width:80%"></div></div><span class="cov-pct">80%</span></div>
+      <div class="cov-row"><span class="cov-label">Top 100 → Cover 95%</span><div class="cov-bar"><div class="cov-fill" style="width:95%"></div></div><span class="cov-pct">95%</span></div>
+    </div>
+  </div>
+
+  <div class="lc-table-wrap">
+    <table class="lc-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Problem</th>
+          <th>Pattern</th>
+          <th>Difficulty</th>
+          <th>Freq</th>
+          <th>Companies</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="background:rgba(0,210,106,0.04);">
+          <td colspan="6" style="color:var(--green);font-size:11px;font-weight:700;padding:8px 12px;letter-spacing:1px;">── LEVEL 1: MUST DO (20 questions → 60% coverage) ──</td>
+        </tr>
+        <tr><td><span class="num">200</span></td><td>Number of Islands</td><td><span class="tag tag-cyan">DFS/BFS + Flood Fill</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span></div></td><td>G,A,FB,MS</td></tr>
+        <tr><td><span class="num">133</span></td><td>Clone Graph</td><td><span class="tag tag-cyan">BFS + HashMap</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span></div></td><td>G,FB,MS</td></tr>
+        <tr><td><span class="num">207</span></td><td>Course Schedule</td><td><span class="tag tag-purple">Topological Sort</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span></div></td><td>G,A,FB,UR</td></tr>
+        <tr><td><span class="num">210</span></td><td>Course Schedule II</td><td><span class="tag tag-purple">Kahn's Topo Sort</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span></div></td><td>G,A,MS</td></tr>
+        <tr><td><span class="num">261</span></td><td>Graph Valid Tree</td><td><span class="tag tag-green">DSU / BFS</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span></div></td><td>G,LD,MS</td></tr>
+        <tr><td><span class="num">417</span></td><td>Pacific Atlantic Water Flow</td><td><span class="tag tag-cyan">Multi-Source BFS</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span></div></td><td>G,A,SF</td></tr>
+        <tr><td><span class="num">994</span></td><td>Rotting Oranges</td><td><span class="tag tag-cyan">Multi-Source BFS</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span></div></td><td>G,A,UR,SF</td></tr>
+        <tr><td><span class="num">127</span></td><td>Word Ladder</td><td><span class="tag tag-cyan">BFS State Space</span></td><td class="diff-hard">Hard</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span></div></td><td>G,A,MS</td></tr>
+        <tr><td><span class="num">743</span></td><td>Network Delay Time</td><td><span class="tag tag-amber">Dijkstra</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span></div></td><td>G,A,UR</td></tr>
+        <tr><td><span class="num">787</span></td><td>Cheapest Flights Within K Stops</td><td><span class="tag tag-amber">Bellman-Ford</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span></div></td><td>G,A,FB,UR</td></tr>
+        <tr><td><span class="num">684</span></td><td>Redundant Connection</td><td><span class="tag tag-green">DSU (cycle detect)</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G,FB</td></tr>
+        <tr><td><span class="num">721</span></td><td>Accounts Merge</td><td><span class="tag tag-green">DSU</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span></div></td><td>G,A,SF</td></tr>
+        <tr><td><span class="num">399</span></td><td>Evaluate Division</td><td><span class="tag tag-cyan">Weighted Graph BFS</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G,MS,AT</td></tr>
+        <tr><td><span class="num">269</span></td><td>Alien Dictionary</td><td><span class="tag tag-purple">Topo Sort (char graph)</span></td><td class="diff-hard">Hard</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span></div></td><td>G,A,FB,MS</td></tr>
+        <tr><td><span class="num">332</span></td><td>Reconstruct Itinerary</td><td><span class="tag tag-cyan">Euler Path (Hierholzer)</span></td><td class="diff-hard">Hard</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G,A,UR</td></tr>
+        <tr><td><span class="num">1631</span></td><td>Path With Minimum Effort</td><td><span class="tag tag-amber">Dijkstra on Grid</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span></div></td><td>G,A,SF</td></tr>
+        <tr><td><span class="num">1192</span></td><td>Critical Connections</td><td><span class="tag tag-red">Bridges (Tarjan)</span></td><td class="diff-hard">Hard</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span></div></td><td>A,UR,AT</td></tr>
+        <tr><td><span class="num">1584</span></td><td>Min Cost to Connect All Points</td><td><span class="tag tag-green">Prim / Kruskal MST</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span></div></td><td>G,A,MS</td></tr>
+        <tr><td><span class="num">778</span></td><td>Swim in Rising Water</td><td><span class="tag tag-amber">Dijkstra / Binary Search+BFS</span></td><td class="diff-hard">Hard</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G</td></tr>
+        <tr><td><span class="num">1091</span></td><td>Shortest Path in Binary Matrix</td><td><span class="tag tag-cyan">BFS Grid 8-dir</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span></div></td><td>G,FB,MS</td></tr>
+
+        <tr style="background:rgba(0,200,255,0.04);">
+          <td colspan="6" style="color:var(--cyan);font-size:11px;font-weight:700;padding:8px 12px;letter-spacing:1px;">── LEVEL 2: IMPORTANT (Top 50 → 80% coverage) ──</td>
+        </tr>
+        <tr><td><span class="num">547</span></td><td>Number of Provinces</td><td><span class="tag tag-green">DSU / DFS</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G,A</td></tr>
+        <tr><td><span class="num">130</span></td><td>Surrounded Regions</td><td><span class="tag tag-cyan">BFS from boundary</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G,A</td></tr>
+        <tr><td><span class="num">785</span></td><td>Is Graph Bipartite?</td><td><span class="tag tag-cyan">BFS 2-coloring</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G,FB</td></tr>
+        <tr><td><span class="num">310</span></td><td>Minimum Height Trees</td><td><span class="tag tag-purple">Topo Sort (leaf trimming)</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G,A</td></tr>
+        <tr><td><span class="num">695</span></td><td>Max Area of Island</td><td><span class="tag tag-cyan">DFS Flood Fill</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span></div></td><td>G,A,MS</td></tr>
+        <tr><td><span class="num">1926</span></td><td>Nearest Exit from Entrance</td><td><span class="tag tag-cyan">BFS Grid</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>A,G</td></tr>
+        <tr><td><span class="num">542</span></td><td>01 Matrix</td><td><span class="tag tag-cyan">Multi-Source BFS</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span></div></td><td>G,A,MS</td></tr>
+        <tr><td><span class="num">1162</span></td><td>Max Distance to Land</td><td><span class="tag tag-cyan">Multi-Source BFS</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G</td></tr>
+        <tr><td><span class="num">1514</span></td><td>Path with Maximum Probability</td><td><span class="tag tag-amber">Dijkstra (maximize)</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G,A</td></tr>
+        <tr><td><span class="num">323</span></td><td>Number of Connected Components</td><td><span class="tag tag-green">DSU / DFS</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G,LD</td></tr>
+
+        <tr style="background:rgba(255,184,0,0.04);">
+          <td colspan="6" style="color:var(--amber);font-size:11px;font-weight:700;padding:8px 12px;letter-spacing:1px;">── LEVEL 3: FAANG FREQUENCY (Top 100 → 95% coverage) ──</td>
+        </tr>
+        <tr><td><span class="num">126</span></td><td>Word Ladder II</td><td><span class="tag tag-cyan">BFS + DFS Backtrack</span></td><td class="diff-hard">Hard</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span></div></td><td>G,A,FB</td></tr>
+        <tr><td><span class="num">1368</span></td><td>Min Cost Make at Least One Valid Path</td><td><span class="tag tag-amber">0-1 BFS</span></td><td class="diff-hard">Hard</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G</td></tr>
+        <tr><td><span class="num">329</span></td><td>Longest Increasing Path in Matrix</td><td><span class="tag tag-purple">Topo Sort + Memoize</span></td><td class="diff-hard">Hard</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span></div></td><td>G,A,MS</td></tr>
+        <tr><td><span class="num">1334</span></td><td>Find City Fewest Neighbors</td><td><span class="tag tag-amber">Floyd-Warshall</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G</td></tr>
+        <tr><td><span class="num">765</span></td><td>Couples Holding Hands</td><td><span class="tag tag-green">DSU or Graph Cyclic</span></td><td class="diff-hard">Hard</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G,A</td></tr>
+        <tr><td><span class="num">2076</span></td><td>Process Restricted Friend Requests</td><td><span class="tag tag-green">DSU with constraints</span></td><td class="diff-hard">Hard</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G</td></tr>
+        <tr><td><span class="num">1129</span></td><td>Shortest Path Alt Colored Edges</td><td><span class="tag tag-cyan">BFS with state</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G,A</td></tr>
+        <tr><td><span class="num">2359</span></td><td>Find Closest Node to Both Nodes</td><td><span class="tag tag-cyan">DFS / BFS reach</span></td><td class="diff-med">Medium</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G,A</td></tr>
+        <tr><td><span class="num">2360</span></td><td>Longest Cycle in Graph</td><td><span class="tag tag-red">DFS cycle length</span></td><td class="diff-hard">Hard</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G,A,MS</td></tr>
+        <tr><td><span class="num">2493</span></td><td>Divide Nodes Into Max Groups</td><td><span class="tag tag-cyan">BFS bipartite check</span></td><td class="diff-hard">Hard</td><td><div class="freq-bar"><span class="freq-pip pip-on"></span><span class="freq-pip pip-on"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span><span class="freq-pip pip-off"></span></div></td><td>G</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="margin-top:10px;font-size:11px;color:var(--text3);">G=Google, A=Amazon, FB=Meta, MS=Microsoft, UR=Uber, AT=Atlassian, SF=Salesforce, LD=LinkedIn</div>
+</section>
+
+<!-- ── SECTION 7: STRATEGY ── -->
+<section id="strategy">
+  <div class="section-header">
+    <div class="section-num">7</div>
+    <h2>Interview Strategy — 5-Step Framework</h2>
+  </div>
+
+  <div class="strategy-steps">
+    <div class="strategy-step">
+      <div class="step-num">Step 1 · 30 seconds</div>
+      <div class="step-title">Identify Graph Type</div>
+      <div class="step-content">
+        <ul>
+          <li>Directed or undirected?</li>
+          <li>Weighted edges?</li>
+          <li>Cyclic or DAG?</li>
+          <li>Dense or sparse?</li>
+          <li>Grid or explicit graph?</li>
+          <li>Connected or disconnected?</li>
+        </ul>
+      </div>
+    </div>
+    <div class="strategy-step">
+      <div class="step-num">Step 2 · 30 seconds</div>
+      <div class="step-title">Identify Pattern</div>
+      <div class="step-content">
+        <ul>
+          <li>Shortest path → BFS/Dijkstra</li>
+          <li>Connectivity → DFS/DSU</li>
+          <li>Ordering → Topo Sort</li>
+          <li>Components → DFS/DSU</li>
+          <li>Grouping → DSU</li>
+          <li>Critical edges → Tarjan</li>
+        </ul>
+      </div>
+    </div>
+    <div class="strategy-step">
+      <div class="step-num">Step 3 · 1 minute</div>
+      <div class="step-title">Select Algorithm</div>
+      <div class="step-content">
+        <ul>
+          <li>Apply recognition sheet</li>
+          <li>Consider constraints (V, E size)</li>
+          <li>Choose representation</li>
+          <li>Decide BFS/DFS/heap</li>
+          <li>Plan data structures</li>
+          <li>State what you'll use verbally</li>
+        </ul>
+      </div>
+    </div>
+    <div class="strategy-step">
+      <div class="step-num">Step 4 · Coding</div>
+      <div class="step-title">Complexity Analysis</div>
+      <div class="step-content">
+        <ul>
+          <li>State time complexity upfront</li>
+          <li>State space complexity</li>
+          <li>Justify the choice</li>
+          <li>V = vertices, E = edges</li>
+          <li>Grid: V=R*C, E=4*R*C</li>
+          <li>Mention bottlenecks</li>
+        </ul>
+      </div>
+    </div>
+    <div class="strategy-step">
+      <div class="step-num">Step 5 · Always</div>
+      <div class="step-title">Edge Cases</div>
+      <div class="step-content">
+        <ul>
+          <li>Empty graph (n=0)</li>
+          <li>Single node</li>
+          <li>Disconnected graph</li>
+          <li>Self-loops</li>
+          <li>Negative weights (Dijkstra!)</li>
+          <li>src == dst already</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight" style="margin-top:24px;">
+    💡 <strong>Golden Rule:</strong> In your first 2 minutes, always verbalize: "This is a [directed/undirected] [weighted/unweighted] graph problem. I'll use [Algorithm] because [reason]. Time complexity is [TC], space is [SC]." This shows pattern recognition mastery.
+  </div>
+</section>
+
+<!-- ── SECTION 8: DECISION TREE ── -->
+<section id="decision">
+  <div class="section-header">
+    <div class="section-num">8</div>
+    <h2>Algorithm Decision Tree</h2>
+  </div>
+
+  <div class="decision-tree">
+    <div style="text-align:center;margin-bottom:24px;">
+      <div class="dt-node dt-question" style="display:inline-block;">Graph Problem</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;">
+      <div style="background:var(--bg4);padding:16px;border-radius:8px;border:1px solid var(--border);">
+        <div style="color:var(--cyan);font-size:12px;font-weight:700;margin-bottom:12px;">🔵 FIND SHORTEST PATH?</div>
+        <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
+          <div style="padding:6px 10px;background:rgba(0,210,106,0.1);border-radius:4px;border-left:2px solid var(--green);">Unweighted → <strong>BFS</strong></div>
+          <div style="padding:6px 10px;background:rgba(0,210,106,0.1);border-radius:4px;border-left:2px solid var(--green);">Positive weights → <strong>Dijkstra</strong> (heap)</div>
+          <div style="padding:6px 10px;background:rgba(0,210,106,0.1);border-radius:4px;border-left:2px solid var(--green);">Negative weights → <strong>Bellman-Ford</strong></div>
+          <div style="padding:6px 10px;background:rgba(0,210,106,0.1);border-radius:4px;border-left:2px solid var(--green);">All pairs, V≤200 → <strong>Floyd-Warshall</strong></div>
+          <div style="padding:6px 10px;background:rgba(0,210,106,0.1);border-radius:4px;border-left:2px solid var(--green);">K stops limit → <strong>Bellman-Ford K-iter</strong></div>
+          <div style="padding:6px 10px;background:rgba(0,210,106,0.1);border-radius:4px;border-left:2px solid var(--green);">0/1 weights → <strong>0-1 BFS (deque)</strong></div>
+          <div style="padding:6px 10px;background:rgba(0,210,106,0.1);border-radius:4px;border-left:2px solid var(--green);">Grid no weights → <strong>BFS grid 4/8-dir</strong></div>
+        </div>
+      </div>
+
+      <div style="background:var(--bg4);padding:16px;border-radius:8px;border:1px solid var(--border);">
+        <div style="color:var(--purple);font-size:12px;font-weight:700;margin-bottom:12px;">🟣 NEED ORDERING / DETECT CYCLE?</div>
+        <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
+          <div style="padding:6px 10px;background:rgba(168,85,247,0.1);border-radius:4px;border-left:2px solid var(--purple);">Task ordering (DAG) → <strong>Kahn's (BFS Topo)</strong></div>
+          <div style="padding:6px 10px;background:rgba(168,85,247,0.1);border-radius:4px;border-left:2px solid var(--purple);">Detect cycle directed → <strong>DFS 3-color</strong></div>
+          <div style="padding:6px 10px;background:rgba(168,85,247,0.1);border-radius:4px;border-left:2px solid var(--purple);">Detect cycle undirected → <strong>DFS + parent</strong></div>
+          <div style="padding:6px 10px;background:rgba(168,85,247,0.1);border-radius:4px;border-left:2px solid var(--purple);">Unique ordering exists? → <strong>Kahn's queue size ≤1</strong></div>
+          <div style="padding:6px 10px;background:rgba(168,85,247,0.1);border-radius:4px;border-left:2px solid var(--purple);">Char ordering (alien) → <strong>Build graph + Topo</strong></div>
+        </div>
+      </div>
+
+      <div style="background:var(--bg4);padding:16px;border-radius:8px;border:1px solid var(--border);">
+        <div style="color:var(--green);font-size:12px;font-weight:700;margin-bottom:12px;">🟢 CONNECTIVITY / GROUPING?</div>
+        <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
+          <div style="padding:6px 10px;background:rgba(0,210,106,0.1);border-radius:4px;border-left:2px solid var(--green);">Count components → <strong>BFS/DFS or DSU</strong></div>
+          <div style="padding:6px 10px;background:rgba(0,210,106,0.1);border-radius:4px;border-left:2px solid var(--green);">Merge groups dynamically → <strong>DSU</strong></div>
+          <div style="padding:6px 10px;background:rgba(0,210,106,0.1);border-radius:4px;border-left:2px solid var(--green);">Redundant edge → <strong>DSU (union returns false)</strong></div>
+          <div style="padding:6px 10px;background:rgba(0,210,106,0.1);border-radius:4px;border-left:2px solid var(--green);">Is tree? → <strong>DSU + E == V-1</strong></div>
+          <div style="padding:6px 10px;background:rgba(0,210,106,0.1);border-radius:4px;border-left:2px solid var(--green);">SCC → <strong>Tarjan's or Kosaraju's</strong></div>
+          <div style="padding:6px 10px;background:rgba(0,210,106,0.1);border-radius:4px;border-left:2px solid var(--green);">Bipartite → <strong>BFS 2-coloring</strong></div>
+        </div>
+      </div>
+
+      <div style="background:var(--bg4);padding:16px;border-radius:8px;border:1px solid var(--border);">
+        <div style="color:var(--amber);font-size:12px;font-weight:700;margin-bottom:12px;">🟡 MINIMUM SPANNING TREE?</div>
+        <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
+          <div style="padding:6px 10px;background:rgba(255,184,0,0.1);border-radius:4px;border-left:2px solid var(--amber);">Sparse graph → <strong>Kruskal (sort edges + DSU)</strong></div>
+          <div style="padding:6px 10px;background:rgba(255,184,0,0.1);border-radius:4px;border-left:2px solid var(--amber);">Dense graph → <strong>Prim (min-heap)</strong></div>
+          <div style="padding:6px 10px;background:rgba(255,184,0,0.1);border-radius:4px;border-left:2px solid var(--amber);">Min cost connect nodes → <strong>Kruskal/Prim MST</strong></div>
+          <div style="padding:6px 10px;background:rgba(255,184,0,0.1);border-radius:4px;border-left:2px solid var(--amber);">Critical edges → <strong>MST then Tarjan bridges</strong></div>
+        </div>
+      </div>
+
+      <div style="background:var(--bg4);padding:16px;border-radius:8px;border:1px solid var(--border);">
+        <div style="color:var(--red);font-size:12px;font-weight:700;margin-bottom:12px;">🔴 ADVANCED / SPECIAL?</div>
+        <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
+          <div style="padding:6px 10px;background:rgba(255,77,77,0.1);border-radius:4px;border-left:2px solid var(--red);">Critical edges removal → <strong>Tarjan Bridges</strong></div>
+          <div style="padding:6px 10px;background:rgba(255,77,77,0.1);border-radius:4px;border-left:2px solid var(--red);">Vertex removal breaks graph → <strong>Articulation Points</strong></div>
+          <div style="padding:6px 10px;background:rgba(255,77,77,0.1);border-radius:4px;border-left:2px solid var(--red);">Euler path/circuit → <strong>Hierholzer's Algorithm</strong></div>
+          <div style="padding:6px 10px;background:rgba(255,77,77,0.1);border-radius:4px;border-left:2px solid var(--red);">Network max flow → <strong>Dinic's / Ford-Fulkerson</strong></div>
+          <div style="padding:6px 10px;background:rgba(255,77,77,0.1);border-radius:4px;border-left:2px solid var(--red);">State + position → <strong>BFS on (node, state) tuples</strong></div>
+          <div style="padding:6px 10px;background:rgba(255,77,77,0.1);border-radius:4px;border-left:2px solid var(--red);">Heuristic pathfinding → <strong>A* (Dijkstra + heuristic)</strong></div>
+        </div>
+      </div>
+
+      <div style="background:var(--bg4);padding:16px;border-radius:8px;border:1px solid var(--border);">
+        <div style="color:var(--pink);font-size:12px;font-weight:700;margin-bottom:12px;">🩷 QUICK PICKS BY PROBLEM TYPE</div>
+        <div style="font-size:12px;display:flex;flex-direction:column;gap:6px;">
+          <div style="padding:6px 10px;background:rgba(244,114,182,0.1);border-radius:4px;border-left:2px solid var(--pink);">Islands / Flood fill → <strong>DFS/BFS grid</strong></div>
+          <div style="padding:6px 10px;background:rgba(244,114,182,0.1);border-radius:4px;border-left:2px solid var(--pink);">Spread / nearest → <strong>Multi-source BFS</strong></div>
+          <div style="padding:6px 10px;background:rgba(244,114,182,0.1);border-radius:4px;border-left:2px solid var(--pink);">Word transformation → <strong>BFS state space</strong></div>
+          <div style="padding:6px 10px;background:rgba(244,114,182,0.1);border-radius:4px;border-left:2px solid var(--pink);">Ratio/division queries → <strong>Weighted BFS</strong></div>
+          <div style="padding:6px 10px;background:rgba(244,114,182,0.1);border-radius:4px;border-left:2px solid var(--pink);">Friend groups / emails → <strong>DSU</strong></div>
+          <div style="padding:6px 10px;background:rgba(244,114,182,0.1);border-radius:4px;border-left:2px solid var(--pink);">2-team partition possible? → <strong>Bipartite BFS</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SECTION 9: 30-DAY PLAN ── -->
+<section id="plan">
+  <div class="section-header">
+    <div class="section-num">9</div>
+    <h2>30-Day Graph Mastery Plan</h2>
+  </div>
+
+  <div style="display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap;">
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:10px;height:10px;background:var(--cyan);border-radius:2px;"></div><span style="font-size:12px;color:var(--text2);">Theory</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:10px;height:10px;background:var(--green);border-radius:2px;"></div><span style="font-size:12px;color:var(--text2);">Practice</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:10px;height:10px;background:var(--amber);border-radius:2px;"></div><span style="font-size:12px;color:var(--text2);">Revision</span></div>
+    <div style="display:flex;align-items:center;gap:6px;"><div style="width:10px;height:10px;background:var(--red);border-radius:2px;"></div><span style="font-size:12px;color:var(--text2);">Mock Interview</span></div>
+  </div>
+
+  <div class="plan-grid">
+    <div class="plan-day"><div class="plan-day-num">Day 1</div><div class="plan-day-title">Graph Basics</div><div class="plan-day-type type-theory">Theory: Repr. (adj list, matrix, edge list). Implement all 3.</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 2</div><div class="plan-day-title">BFS Mastery</div><div class="plan-day-type type-practice">Practice: 200 Islands, 994 Rotting Oranges, 1091 Binary Matrix</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 3</div><div class="plan-day-title">DFS Mastery</div><div class="plan-day-type type-practice">Practice: 133 Clone, 130 Surrounded, 695 Max Island</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 4</div><div class="plan-day-title">Multi-Source BFS</div><div class="plan-day-type type-practice">Practice: 417 Pacific Atlantic, 542 01-Matrix, 1162 Max Dist</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 5</div><div class="plan-day-title">Cycle Detection</div><div class="plan-day-type type-theory">Theory: Directed vs undirected. DFS 3-color. Code both patterns.</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 6</div><div class="plan-day-title">Topo Sort BFS</div><div class="plan-day-type type-practice">Practice: 207 Course Sched, 210 Course Sched II, 310 Min Trees</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 7</div><div class="plan-day-title">Week 1 Review</div><div class="plan-day-type type-review">Revise: BFS, DFS templates. Solve 3 unseen problems. Time yourself.</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 8</div><div class="plan-day-title">DSU Theory</div><div class="plan-day-type type-theory">Theory: Path compression, union by rank. Implement from memory 3x.</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 9</div><div class="plan-day-title">DSU Practice</div><div class="plan-day-type type-practice">Practice: 547 Provinces, 684 Redundant, 721 Accounts Merge</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 10</div><div class="plan-day-title">Dijkstra</div><div class="plan-day-type type-practice">Practice: 743 Network Delay, 1514 Max Probability, 1631 Min Effort</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 11</div><div class="plan-day-title">Bellman-Ford</div><div class="plan-day-type type-practice">Practice: 787 Cheapest Flights. Code from memory. Add K-stop variant.</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 12</div><div class="plan-day-title">Floyd-Warshall</div><div class="plan-day-type type-practice">Practice: 399 Evaluate Division, 1334 Find City. Matrix path DP.</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 13</div><div class="plan-day-title">MST: Kruskal</div><div class="plan-day-type type-practice">Practice: 1584 Min Cost Points. Implement Kruskal with DSU.</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 14</div><div class="plan-day-title">Week 2 Review</div><div class="plan-day-type type-review">Revise: DSU, Dijkstra, Topo patterns. 3 timed problems.</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 15</div><div class="plan-day-title">MST: Prim</div><div class="plan-day-type type-practice">Practice: 1584 again with Prim. Compare Kruskal vs Prim. Implement both.</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 16</div><div class="plan-day-title">Bipartite</div><div class="plan-day-type type-practice">Practice: 785 Is Bipartite, 886 Possible Bipartition. 2-color BFS/DFS.</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 17</div><div class="plan-day-title">Tarjan Bridges</div><div class="plan-day-type type-practice">Practice: 1192 Critical Connections. Study low[] and disc[] arrays.</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 18</div><div class="plan-day-title">State Space BFS</div><div class="plan-day-type type-practice">Practice: 127 Word Ladder, 433 Min Genetic Mutation, 752 Open Lock</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 19</div><div class="plan-day-title">Euler Path</div><div class="plan-day-type type-practice">Practice: 332 Reconstruct Itinerary. Hierholzer's algorithm.</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 20</div><div class="plan-day-title">Advanced: 0-1 BFS</div><div class="plan-day-type type-practice">Practice: 1368 Min Cost Valid Path, 2290 Min Obstacles. Deque trick.</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 21</div><div class="plan-day-title">Week 3 Review</div><div class="plan-day-type type-review">Revise: All 16 patterns. Decision tree quiz. 5 medium problems.</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 22</div><div class="plan-day-title">Topo + DP</div><div class="plan-day-type type-practice">Practice: 329 Longest Inc Path, 269 Alien Dictionary (hard).</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 23</div><div class="plan-day-title">Grid Dijkstra</div><div class="plan-day-type type-practice">Practice: 778 Swim Rising Water, 1631 Min Effort, 1102 Max Path Score</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 24</div><div class="plan-day-title">Hard Practice</div><div class="plan-day-type type-practice">Practice: 126 Word Ladder II, 765 Couples Holding Hands</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 25</div><div class="plan-day-title">Mock Interview #1</div><div class="plan-day-type type-mock" style="color:var(--red);">2 unseen problems, 45 mins each. Simulate FAANG round. No hints.</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 26</div><div class="plan-day-title">Weak Area Fix</div><div class="plan-day-type type-review">Identify struggles from mock. Deep dive 1 pattern. Re-solve 5 problems.</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 27</div><div class="plan-day-title">SCC: Tarjan/Kosaraju</div><div class="plan-day-type type-theory">Theory: Strongly connected components. Kosaraju (2 DFS), Tarjan (1 DFS).</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 28</div><div class="plan-day-title">Network Flow Intro</div><div class="plan-day-type type-theory">Theory: Max flow, min cut, Dinic's algorithm. Ford-Fulkerson concept.</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 29</div><div class="plan-day-title">Mock Interview #2</div><div class="plan-day-type type-mock" style="color:var(--red);">Full FAANG sim: 1 easy + 1 hard. Complete walkthrough. Explain out loud.</div></div>
+    <div class="plan-day"><div class="plan-day-num">Day 30</div><div class="plan-day-title">Final Revision</div><div class="plan-day-type type-review">All templates from memory. Cheatsheet review. Recognition sheet drill. Ready!</div></div>
+  </div>
+
+  <div class="highlight" style="margin-top:24px;">
+    ⚡ <strong>Weekly targets:</strong> Week 1: BFS+DFS mastery | Week 2: DSU+Dijkstra+Topo | Week 3: MST+Bridges+Advanced | Week 4: Mock interviews + gaps
+  </div>
+</section>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div style="margin-bottom:8px;">Graph DSA Mastery Roadmap · FAANG Interview Preparation · Anmol</div>
+  <div>Covers 95% of graph questions at Google, Amazon, Meta, Microsoft, Uber, Atlassian, Goldman Sachs</div>
+  <div style="margin-top:8px;font-size:10px;">16 patterns · 100+ recognition rules · 100 curated problems · 30-day plan · Templates in Python, Java, C++</div>
+</div>
+
+</div><!-- /container -->
+
+<script>
+function switchTab(el, targetId) {
+  const container = el.closest('.card, section, .card-grid, div');
+  const allTabs = el.parentElement.querySelectorAll('.tab');
+  const parentEl = el.parentElement.parentElement;
+  const allContents = parentEl.querySelectorAll('.tab-content');
+  allTabs.forEach(t => t.classList.remove('active'));
+  allContents.forEach(c => c.classList.remove('active'));
+  el.classList.add('active');
+  const target = document.getElementById(targetId);
+  if (target) target.classList.add('active');
+}
+
+// Highlight active nav on scroll
+const sections = document.querySelectorAll('section');
+const navLinks = document.querySelectorAll('nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+}, {passive: true});
+
+// Animate coverage bars on scroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.cov-fill').forEach(fill => {
+        fill.style.width = fill.style.width;
+      });
+    }
+  });
+}, {threshold: 0.3});
+document.querySelectorAll('.coverage-bars').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
